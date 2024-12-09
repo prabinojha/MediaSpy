@@ -68,8 +68,24 @@ router.post('/register', async (req, res) => {
 
 // Dashboard
 router.get('/dashboard', ensureAuthenticated, (req, res) => {
-    res.render('dashboard', { username: req.session.user.username });
+    db.all(`SELECT * FROM reviews`, (err, reviews) => {
+        if (err) {
+            return res.send('Error fetching reviews: ' + err.message);
+        }
+
+        // Separating reviews by type
+        const videoGameReviews = reviews.filter(review => review.type === 'video_game');
+        const movieReviews = reviews.filter(review => review.type === 'movie');
+
+        // Rendering the dashboard with the separated reviews
+        res.render('dashboard', {
+            username: req.session.user.username,
+            videoGameReviews: videoGameReviews,
+            movieReviews: movieReviews
+        });
+    });
 });
+
 
 // Logout handler
 router.get('/logout', (req, res) => {
@@ -81,14 +97,13 @@ router.get('/logout', (req, res) => {
 
 // Review handling routes
 
-// Add a review for the logged-in user
 router.post('/reviews', ensureAuthenticated, (req, res) => {
-    const { content, rating, company_name, theme } = req.body;
+    const { name, type, content, rating, company_name, theme } = req.body;
     const userId = req.session.user.id;
 
     db.run(
-        `INSERT INTO reviews (user_id, content, rating, company_name, theme) VALUES (?, ?, ?, ?, ?)`,
-        [userId, content, rating, company_name, theme],
+        `INSERT INTO reviews (user_id, name, type, content, rating, company_name, theme) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        [userId, name, type, content, rating, company_name, theme],
         (err) => {
             if (err) {
                 return res.send('Error adding review: ' + err.message);
@@ -109,6 +124,5 @@ router.get('/reviews', ensureAuthenticated, (req, res) => {
         res.render('reviews', { reviews: rows });
     });
 });
-
 
 module.exports = router;

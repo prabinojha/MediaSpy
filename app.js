@@ -3,10 +3,8 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const routes = require('./routes/routes');
 
-
 const app = express();
 
-// Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(session({
@@ -18,7 +16,6 @@ app.use(session({
 
 app.set('view engine', 'ejs');
 
-// Routes
 app.use(routes);
 
 app.listen(3000);

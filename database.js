@@ -17,6 +17,8 @@ db.serialize(() => {
         CREATE TABLE IF NOT EXISTS reviews (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER,
+            name TEXT NOT NULL,
+            type TEXT CHECK(type IN ('movie', 'video_game')) NOT NULL,
             content TEXT,
             rating INTEGER CHECK(rating >= 1 AND rating <= 5),
             company_name TEXT,

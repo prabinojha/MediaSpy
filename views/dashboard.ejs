@@ -10,6 +10,11 @@
 
     <h2>Add a Review</h2>
     <form action="/reviews" method="POST">
+        <input type="text" name="name" placeholder="Name of Movie or Video Game" required />
+        <select name="type" required>
+            <option value="movie">Movie</option>
+            <option value="video_game">Video Game</option>
+        </select>
         <textarea name="content" placeholder="Write your review here..." required></textarea>
         <input type="number" name="rating" min="1" max="5" placeholder="Rating (1-5)" required />
         <input type="text" name="company_name" placeholder="Company Name" required />
@@ -18,6 +23,50 @@
     </form>
 
     <h2>Your Reviews</h2>
-    <a href="/reviews">View all reviews</a>
+    <a href="/reviews">View all your reviews</a>
+
+    <h2>Movie Reviews</h2>
+    <% if (movieReviews.length > 0) { %>
+        <ul>
+            <% movieReviews.forEach(review => { %>
+                <li>
+                    <strong>Name:</strong> <%= review.name %><br />
+                    <strong>Rating:</strong> <%= review.rating %>/5<br />
+                    <strong>Company:</strong> <%= review.company_name %><br />
+                    <strong>Theme:</strong> <%= review.theme %><br />
+                    <strong>Content:</strong> <%= review.content %>
+                </li>
+            <% }); %>
+        </ul>
+    <% } else { %>
+        <p>No movie reviews available.</p>
+    <% } %>
+
+    <h2>Video Game Reviews</h2>
+    <% if (videoGameReviews.length > 0) { %>
+        <ul>
+            <% videoGameReviews.forEach(review => { %>
+                <li>
+                    <strong>Name:</strong> <%= review.name %><br />
+                    <strong>Rating:</strong> <%= review.rating %>/5<br />
+                    <strong>Company:</strong> <%= review.company_name %><br />
+                    <strong>Theme:</strong> <%= review.theme %><br />
+                    <strong>Content:</strong> <%= review.content %>
+                </li>
+            <% }); %>
+        </ul>
+    <% } else { %>
+        <p>No video game reviews available.</p>
+    <% } %>
+
 </body>
 </html>
+
+
+
+
+
+
+    
+
+    
