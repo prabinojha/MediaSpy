@@ -23,7 +23,10 @@
                     <strong>Rating:</strong> <%= review.rating %>/5<br />
                     <strong>Company:</strong> <%= review.company_name %><br />
                     <strong>Theme:</strong> <%= review.theme %><br />
-                    <strong>Content:</strong> <%= review.content %>
+                    <strong>Content:</strong> <%= review.content %><br />
+                    <% if (review.image_path) { %>
+                        <img src="<%= review.image_path %>" alt="Image for <%= review.name %>" style="max-width: 200px; height: auto;" />
+                    <% } %>
                 </li>
             <% }); %>
         </ul>
@@ -40,14 +43,16 @@
                     <strong>Rating:</strong> <%= review.rating %>/5<br />
                     <strong>Company:</strong> <%= review.company_name %><br />
                     <strong>Theme:</strong> <%= review.theme %><br />
-                    <strong>Content:</strong> <%= review.content %>
+                    <strong>Content:</strong> <%= review.content %><br />
+                    <% if (review.image_path) { %>
+                        <img src="<%= review.image_path %>" alt="Image for <%= review.name %>" style="max-width: 200px; height: auto;" />
+                    <% } %>
                 </li>
             <% }); %>
         </ul>
     <% } else { %>
         <p>No video game reviews available.</p>
     <% } %>
-
 </body>
 </html>
 

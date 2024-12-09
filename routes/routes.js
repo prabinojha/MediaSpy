@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const db = require('../database');
+const multer = require('multer');
+const path = require('path');
 
 // Debugging middleware
 router.use((req, res, next) => {
@@ -68,23 +70,35 @@ router.post('/register', async (req, res) => {
 
 // Dashboard
 router.get('/dashboard', ensureAuthenticated, (req, res) => {
-    db.all(`SELECT * FROM reviews`, (err, reviews) => {
+    const movieQuery = `SELECT * FROM reviews WHERE type = 'movie'`;
+    const videoGameQuery = `SELECT * FROM reviews WHERE type = 'video_game'`;
+
+    let movieReviews = [];
+    let videoGameReviews = [];
+
+    db.all(movieQuery, (err, movies) => {
         if (err) {
-            return res.send('Error fetching reviews: ' + err.message);
+            console.error('Error fetching movie reviews:', err);
+            return res.status(500).send('Internal Server Error');
         }
+        movieReviews = movies;
 
-        // Separating reviews by type
-        const videoGameReviews = reviews.filter(review => review.type === 'video_game');
-        const movieReviews = reviews.filter(review => review.type === 'movie');
+        db.all(videoGameQuery, (err, games) => {
+            if (err) {
+                console.error('Error fetching video game reviews:', err);
+                return res.status(500).send('Internal Server Error');
+            }
+            videoGameReviews = games;
 
-        // Rendering the dashboard with the separated reviews
-        res.render('dashboard', {
-            username: req.session.user.username,
-            videoGameReviews: videoGameReviews,
-            movieReviews: movieReviews
+            res.render('dashboard', {
+                username: req.session.user.username,
+                movieReviews,
+                videoGameReviews,
+            });
         });
     });
 });
+
 
 
 // Logout handler
@@ -99,21 +113,38 @@ router.get('/add-review', ensureAuthenticated, (req, res) => {
     res.render('add-review');
 });
 
-router.post('/reviews', ensureAuthenticated, (req, res) => {
-    const { name, type, content, rating, company_name, theme } = req.body;
-    const userId = req.session.user.id;
-
-    db.run(
-        `INSERT INTO reviews (user_id, name, type, content, rating, company_name, theme) VALUES (?, ?, ?, ?, ?, ?, ?)`,
-        [userId, name, type, content, rating, company_name, theme],
-        (err) => {
-            if (err) {
-                return res.send('Error adding review: ' + err.message);
-            }
-            res.redirect('/dashboard');
-        }
-    );
+// Image storage handling
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/'); // Save files in the uploads folder
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname)); // Append timestamp to filename
+    }
 });
+
+const upload = multer({ storage });
+
+// Route to handle adding reviews
+router.post('/reviews', ensureAuthenticated, upload.single('image'), async (req, res) => {
+    try {
+        const { name, type, content, rating, company_name, theme } = req.body;
+        const imagePath = req.file ? `/uploads/${req.file.filename}` : null; // Save image path
+
+        const query = `
+            INSERT INTO reviews (name, type, content, rating, company_name, theme, user_id, image_path)
+            VALUES (? ,?, ?, ?, ?, ?, ?, ?)
+        `;
+        const values = [name, type, content, rating, company_name, theme, req.session.user.id, imagePath];
+
+        await db.run(query, values);
+        res.redirect('/dashboard');
+    } catch (error) {
+        console.error('Error adding review:', error.message);
+        res.status(500).send('Error adding review');
+    }
+});
+
 
 // View all reviews for the logged-in user
 router.get('/reviews', ensureAuthenticated, (req, res) => {
