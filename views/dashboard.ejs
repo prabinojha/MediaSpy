@@ -7,5 +7,17 @@
 <body>
     <h1>Welcome, <%= username %>!</h1>
     <a href="/logout">Logout</a>
+
+    <h2>Add a Review</h2>
+    <form action="/reviews" method="POST">
+        <textarea name="content" placeholder="Write your review here..." required></textarea>
+        <input type="number" name="rating" min="1" max="5" placeholder="Rating (1-5)" required />
+        <input type="text" name="company_name" placeholder="Company Name" required />
+        <input type="text" name="theme" placeholder="Theme" required />
+        <button type="submit">Submit Review</button>
+    </form>
+
+    <h2>Your Reviews</h2>
+    <a href="/reviews">View all reviews</a>
 </body>
 </html>

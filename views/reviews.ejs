@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Reviews</title>
+</head>
+<body>
+    <h1>Your Reviews</h1>
+    <a href="/dashboard">Back to Dashboard</a>
+
+    <ul>
+        <% reviews.forEach(review => { %>
+            <li>
+                <strong>Company:</strong> <%= review.company_name %><br />
+                <strong>Theme:</strong> <%= review.theme %><br />
+                <strong>Rating:</strong> <%= review.rating %>/5<br />
+                <strong>Content:</strong> <%= review.content %>
+            </li>
+        <% }); %>
+    </ul>
+</body>
+</html>

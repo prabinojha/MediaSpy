@@ -78,4 +78,37 @@ router.get('/logout', (req, res) => {
     });
 });
 
+
+// Review handling routes
+
+// Add a review for the logged-in user
+router.post('/reviews', ensureAuthenticated, (req, res) => {
+    const { content, rating, company_name, theme } = req.body;
+    const userId = req.session.user.id;
+
+    db.run(
+        `INSERT INTO reviews (user_id, content, rating, company_name, theme) VALUES (?, ?, ?, ?, ?)`,
+        [userId, content, rating, company_name, theme],
+        (err) => {
+            if (err) {
+                return res.send('Error adding review: ' + err.message);
+            }
+            res.redirect('/dashboard');
+        }
+    );
+});
+
+// View all reviews for the logged-in user
+router.get('/reviews', ensureAuthenticated, (req, res) => {
+    const userId = req.session.user.id;
+
+    db.all(`SELECT * FROM reviews WHERE user_id = ?`, [userId], (err, rows) => {
+        if (err) {
+            return res.send('Error fetching reviews: ' + err.message);
+        }
+        res.render('reviews', { reviews: rows });
+    });
+});
+
+
 module.exports = router;
