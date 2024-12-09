@@ -5,25 +5,14 @@
     <title>Dashboard</title>
 </head>
 <body>
+    <nav>
+        <p>MediaSpy</p>
+        <a href="/logout">Logout</a>
+        <a href="/reviews">My Reviews</a>
+        <a href="/add-review">Add Review</a>
+
+    </nav>
     <h1>Welcome, <%= username %>!</h1>
-    <a href="/logout">Logout</a>
-
-    <h2>Add a Review</h2>
-    <form action="/reviews" method="POST">
-        <input type="text" name="name" placeholder="Name of Movie or Video Game" required />
-        <select name="type" required>
-            <option value="movie">Movie</option>
-            <option value="video_game">Video Game</option>
-        </select>
-        <textarea name="content" placeholder="Write your review here..." required></textarea>
-        <input type="number" name="rating" min="1" max="5" placeholder="Rating (1-5)" required />
-        <input type="text" name="company_name" placeholder="Company Name" required />
-        <input type="text" name="theme" placeholder="Theme" required />
-        <button type="submit">Submit Review</button>
-    </form>
-
-    <h2>Your Reviews</h2>
-    <a href="/reviews">View all your reviews</a>
 
     <h2>Movie Reviews</h2>
     <% if (movieReviews.length > 0) { %>

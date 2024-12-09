@@ -95,6 +95,9 @@ router.get('/logout', (req, res) => {
 });
 
 // Review handling routes
+router.get('/add-review', ensureAuthenticated, (req, res) => {
+    res.render('add-review');
+});
 
 router.post('/reviews', ensureAuthenticated, (req, res) => {
     const { name, type, content, rating, company_name, theme } = req.body;

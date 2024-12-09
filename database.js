@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('./users.db');
 
-// Initialize the database
+// Initialising the database
 db.serialize(() => {
     // Create users table
     db.run(`
