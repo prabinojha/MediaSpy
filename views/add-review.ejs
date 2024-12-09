@@ -1,18 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/scripts.js" defer></script>
     <title>Add Review</title>
 </head>
+
 <body>
     <h2>Add a Review</h2>
     <form action="/reviews" method="POST">
-        <input type="text" name="name" placeholder="Name of Movie or Video Game" required />
+        <input type="text" id="name" name="name" placeholder="Name of Movie or Video Game" required
+            autocomplete="off" />
         <select name="type" required>
             <option value="movie">Movie</option>
             <option value="video_game">Video Game</option>
         </select>
+        <ul id="suggestions"></ul>
         <textarea name="content" placeholder="Write your review here..." required></textarea>
         <input type="number" name="rating" min="1" max="5" placeholder="Rating (1-5)" required />
         <input type="text" name="company_name" placeholder="Company Name" required />

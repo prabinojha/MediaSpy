@@ -135,7 +135,7 @@ router.post('/reviews/delete/:id', ensureAuthenticated, (req, res) => {
         if (err) {
             return res.send('Error deleting review: ' + err.message);
         }
-        res.redirect('/dashboard');
+        res.redirect('/reviews');
     });
 });
 
@@ -164,6 +164,37 @@ router.post('/reviews/update/:id', ensureAuthenticated, (req, res) => {
             res.redirect('/reviews');
         }
     );
+});
+
+// Suggestions route
+router.get('/suggestions', ensureAuthenticated, (req, res) => {
+    const { name, type } = req.query; // The name and type from the user's input
+
+    let query = `SELECT * FROM reviews WHERE name LIKE ?`;
+    let params = [`%${name}%`];
+
+    // If the type is specified, filter by it
+    if (type) {
+        query += ` AND type = ?`;
+        params.push(type);
+    }
+
+    db.all(query, params, (err, rows) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+
+        // Send back the matching reviews as suggestions
+        const suggestions = rows.map(row => ({
+            name: row.name,
+            type: row.type,
+            content: row.content,
+            rating: row.rating,
+            company_name: row.company_name,
+            theme: row.theme
+        }));
+        res.json(suggestions);
+    });
 });
 
 module.exports = router;
