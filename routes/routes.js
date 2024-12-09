@@ -137,7 +137,7 @@ router.post('/reviews', ensureAuthenticated, upload.single('image'), async (req,
         `;
         const values = [name, type, content, rating, company_name, theme, req.session.user.id, imagePath];
 
-        await db.run(query, values);
+        db.run(query, values);
         res.redirect('/dashboard');
     } catch (error) {
         console.error('Error adding review:', error.message);
