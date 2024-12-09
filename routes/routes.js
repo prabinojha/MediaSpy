@@ -94,7 +94,6 @@ router.get('/logout', (req, res) => {
     });
 });
 
-
 // Review handling routes
 
 router.post('/reviews', ensureAuthenticated, (req, res) => {
@@ -123,6 +122,45 @@ router.get('/reviews', ensureAuthenticated, (req, res) => {
         }
         res.render('reviews', { reviews: rows });
     });
+});
+
+// Handling delete & update routes
+
+router.post('/reviews/delete/:id', ensureAuthenticated, (req, res) => {
+    const reviewId = req.params.id;
+    db.run(`DELETE FROM reviews WHERE id = ?`, [reviewId], (err) => {
+        if (err) {
+            return res.send('Error deleting review: ' + err.message);
+        }
+        res.redirect('/dashboard');
+    });
+});
+
+router.get('/reviews/update/:id', ensureAuthenticated, (req, res) => {
+    const reviewId = req.params.id;
+    db.get(`SELECT * FROM reviews WHERE id = ?`, [reviewId], (err, review) => {
+        if (err) {
+            return res.send('Error fetching review: ' + err.message);
+        }
+        res.render('updateReview', { review: review });
+    });
+});
+
+
+router.post('/reviews/update/:id', ensureAuthenticated, (req, res) => {
+    const reviewId = req.params.id;
+    const { name, type, content, rating, company_name, theme } = req.body;
+
+    db.run(
+        `UPDATE reviews SET name = ?, type = ?, content = ?, rating = ?, company_name = ?, theme = ? WHERE id = ?`,
+        [name, type, content, rating, company_name, theme, reviewId],
+        (err) => {
+            if (err) {
+                return res.send('Error updating review: ' + err.message);
+            }
+            res.redirect('/reviews');
+        }
+    );
 });
 
 module.exports = router;

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Update Review</h1>
+    <form action="/reviews/update/<%= review.id %>" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="<%= review.name %>" required />
+
+        <label for="type">Type:</label>
+        <select id="type" name="type" required>
+            <option value="movie" <%= review.type === 'movie' ? 'selected' : '' %>>Movie</option>
+            <option value="video_game" <%= review.type === 'video_game' ? 'selected' : '' %>>Video Game</option>
+        </select>
+
+        <label for="content">Content:</label>
+        <textarea id="content" name="content" required><%= review.content %></textarea>
+
+        <label for="rating">Rating:</label>
+        <input type="number" id="rating" name="rating" min="1" max="5" value="<%= review.rating %>" required />
+
+        <label for="company_name">Company Name:</label>
+        <input type="text" id="company_name" name="company_name" value="<%= review.company_name %>" required />
+
+        <label for="theme">Theme:</label>
+        <input type="text" id="theme" name="theme" value="<%= review.theme %>" required />
+
+        <button type="submit">Update</button>
+    </form>
+    <a href="/reviews">Back to Reviews</a>
+
+</body>
+</html>
