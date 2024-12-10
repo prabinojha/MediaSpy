@@ -2,18 +2,15 @@
   <div>
     <a href="/dashboard"> <img id="logo" src="logo.png" alt="logo"></a>
   </div>
-  <nav>
+  <nav id="nav-links">
     <ul>
-      <li>
-        <a href="/reviews">My Reviews</a>
-      </li>
-      <li>
-        <a href="/add-review">Add Review</a>
-      </li>
-      <li>
-        <a href="/logout">Logout</a>
-      </li>
+      <% if (isLoggedIn) { %>
+        <li><a href="/add-review">Add Review</a></li>
+        <li><a href="/reviews">My Reviews</a></li>
+        <li><a href="/logout">Logout</a></li>
+      <% } else {%>
+        <li><a href="/register">Register an account</a></li>
+      <% }%>
     </ul>
   </nav>
 </header>
-

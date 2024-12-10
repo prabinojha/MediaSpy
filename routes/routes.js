@@ -8,6 +8,7 @@ const fs = require('fs');
 
 // Debugging middleware
 router.use((req, res, next) => {
+    res.locals.isLoggedIn = req.session && req.session.user ? true : false;
     next();
 });
 
