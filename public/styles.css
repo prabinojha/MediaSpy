@@ -57,9 +57,9 @@ ol {
 #main-header nav a {
     color: black;
     background-color: white;
-    padding: 8px;
+    padding: 6px;
     border-radius: 5px;
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 #main-header nav a:hover,
@@ -233,6 +233,7 @@ textarea {
     overflow-x: auto;
     gap: 30px; /* Adds spacing between review cards */
     scroll-snap-type: x mandatory;
+    margin: 20px 0;
 }
 
 /* Review Card Styling */
@@ -244,6 +245,7 @@ textarea {
     padding: 20px;
     text-align: center;
     scroll-snap-align: start;
+    margin-bottom: 10px;
 }
 
 /* Review Image */
@@ -285,6 +287,7 @@ textarea {
 .reviews-container::-webkit-scrollbar-thumb {
     background-color: #8765cb;
     border-radius: 4px;
+    margin-top: 5px;
 }
 
 .reviews-container::-webkit-scrollbar-track {

@@ -9,20 +9,22 @@
     <header>
         <%- include('includes/header')%>
     </header>
-    <h2>Add a Review</h2>
-    <form action="/reviews" method="POST" enctype="multipart/form-data">
-        <input type="text" id="name" name="name" placeholder="Name of Movie or Video Game" required autocomplete="off" />
-        <select name="type" required>
-            <option value="movie">Movie</option>
-            <option value="video_game">Video Game</option>
-        </select>
-        <ul id="suggestions"></ul>
-        <textarea name="content" placeholder="Write your review here..." required></textarea>
-        <input type="number" name="rating" min="1" max="5" placeholder="Rating (1-5)" required />
-        <input type="text" name="company_name" placeholder="Company Name" required />
-        <input type="text" name="theme" placeholder="Theme" required />
-        <input type="file" name="image" accept="image/*" required />
-        <button type="submit">Submit Review</button>
-    </form>
+    <main class="container">
+        <h1>Add a Review</h2>
+            <form action="/reviews" method="POST" enctype="multipart/form-data">
+                <input type="text" id="name" name="name" placeholder="Name of Movie or Video Game" required autocomplete="off" />
+                <select name="type" required>
+                    <option value="movie">Movie</option>
+                    <option value="video_game">Video Game</option>
+                </select>
+                <ul id="suggestions"></ul>
+                <textarea name="content" placeholder="Write your review here..." required></textarea>
+                <input type="number" name="rating" min="1" max="5" placeholder="Rating (1-5)" required />
+                <input type="text" name="company_name" placeholder="Company Name" required />
+                <input type="text" name="theme" placeholder="Theme" required />
+                <input type="file" name="image" accept="image/*" required />
+                <button type="submit">Submit Review</button>
+            </form>
+    </main>
 </body>
 </html>
