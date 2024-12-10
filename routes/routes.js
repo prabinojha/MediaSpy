@@ -22,17 +22,17 @@ function redirectIfLoggedIn(req, res, next) {
 // Middleware to ensure user is authenticated
 function ensureAuthenticated(req, res, next) {
     if (!req.session || !req.session.user) {
-        return res.redirect('/');
+        return res.redirect('/login');
     }
     next();
 }
 
 // Login page
-router.get('/', redirectIfLoggedIn, (req, res) => {
-    res.render('login');
+router.get('/', (req, res) => {
+    res.redirect('/dashboard');
 });
 
-router.get('/login', redirectIfLoggedIn, (req, res) => {
+router.get('/login', (req, res) => {
     res.render('login');
 });
 
@@ -69,8 +69,8 @@ router.post('/register', async (req, res) => {
     });
 });
 
-// Dashboard
-router.get('/dashboard', ensureAuthenticated, (req, res) => {
+// Dashboard (accessible by both logged-in and non-logged-in users)
+router.get('/dashboard', (req, res) => {
     const movieQuery = `SELECT * FROM reviews WHERE type = 'movie'`;
     const videoGameQuery = `SELECT * FROM reviews WHERE type = 'video_game'`;
 
@@ -92,7 +92,7 @@ router.get('/dashboard', ensureAuthenticated, (req, res) => {
             videoGameReviews = games;
 
             res.render('dashboard', {
-                username: req.session.user.username,
+                username: req.session?.user?.username || null, // Show username only if logged in
                 movieReviews,
                 videoGameReviews,
             });
@@ -128,7 +128,7 @@ const upload = multer({ storage });
 router.post('/reviews', ensureAuthenticated, upload.single('image'), async (req, res) => {
     try {
         const { name, type, content, rating, company_name, theme } = req.body;
-        const imagePath = req.file ? `/uploads/${req.file.filename}` : null; // Save image path
+        const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
 
         const query = `
             INSERT INTO reviews (name, type, content, rating, company_name, theme, user_id, image_path)
