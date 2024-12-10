@@ -1,5 +1,4 @@
 /* Default styles */
-
 :root {
     --primary-purple: #8765cb;
     --primary-blue: #1587bf;
@@ -8,7 +7,6 @@
 }
 
 /* Main styles */
-
 * {
     margin: 0;
     padding: 0;
@@ -21,11 +19,15 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    text-align: center;
+}
+
+body main {
+    margin: 20px 50px;
 }
 
 .container {
     margin-top: 50px;
+    text-align: center;
 }
 
 /* Navigation Bar */
@@ -44,23 +46,13 @@ ol {
     align-items: center;
 }
 
-#logo a {
-    font-size: 1.5rem;
-    font-weight: normal;
-    color: white;
-}
-
-#logo a:hover {
-    text-decoration: none;
-}
-
 #main-header ul {
     display: flex;
 }
 
 #main-header li {
     margin-left: 1.5rem;
-    
+
 }
 
 #main-header nav a {
@@ -77,8 +69,8 @@ ol {
 /* Heading styles */
 
 #logo {
-    font-size: 24px;
-    display: flex;
+    width: 200px;
+    height: auto;
 }
 
 h1 {
@@ -131,10 +123,9 @@ a:hover {
 }
 
 /* Form styles */
-
 form {
     max-width: 25rem;
-    margin: 2rem auto;
+    margin: 1rem auto;
 }
 
 h1 {
@@ -169,7 +160,6 @@ textarea {
 }
 
 /* Autocomplete suggestion styles */
-
 #suggestions {
     list-style-type: none;
     padding: 0;
@@ -191,4 +181,132 @@ textarea {
 .suggestion-details {
     font-size: 0.9em;
     color: #555;
+}
+
+/* General Container */
+.review-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f8f9fa;
+}
+
+/* Review Card Styling */
+.review-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    width: 400px;
+    /* Adjust card width */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+/* Poster Image */
+.review-poster {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Title Styling */
+.review-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+/* Category Styling */
+.review-category {
+    font-size: 1rem;
+    color: #6c757d;
+    margin-bottom: 10px;
+}
+
+/* Rating Styling */
+.review-rating {
+    font-size: 1.2rem;
+    color: #28a745;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Review scrolling feature */
+.reviews-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 30px; /* Adds spacing between review cards */
+    scroll-snap-type: x mandatory;
+}
+
+/* Review Card Styling */
+.review-card {
+    flex: 0 0 300px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    scroll-snap-align: start;
+}
+
+/* Review Image */
+.review-image img {
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Review Content */
+.review-content {
+    margin-top: 15px;
+}
+
+.review-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.review-category {
+    font-size: 1rem;
+    color: #6c757d;
+    margin-top: 5px;
+}
+
+.review-rating {
+    font-size: 1.1rem;
+    color: #28a745;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Scrollbar Customisation */
+.reviews-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.reviews-container::-webkit-scrollbar-thumb {
+    background-color: #8765cb;
+    border-radius: 4px;
+}
+
+.reviews-container::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .review-container {
+        grid-template-columns: 1fr;
+    }
 }

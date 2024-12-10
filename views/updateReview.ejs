@@ -4,6 +4,9 @@
     <%- include('includes/head', {title:'Update Reviews'}) %>
 </head>
 <body>
+    <header>
+        <%- include('includes/header')%>
+    </header>
     <h1>Update Review</h1>
     <form action="/reviews/update/<%= review.id %>" method="POST">
         <label for="name">Name:</label>

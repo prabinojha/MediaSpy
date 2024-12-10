@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const db = require('../database');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 
 // Debugging middleware
 router.use((req, res, next) => {
@@ -99,8 +100,6 @@ router.get('/dashboard', ensureAuthenticated, (req, res) => {
     });
 });
 
-
-
 // Logout handler
 router.get('/logout', (req, res) => {
     req.session.destroy(() => {
@@ -162,11 +161,33 @@ router.get('/reviews', ensureAuthenticated, (req, res) => {
 
 router.post('/reviews/delete/:id', ensureAuthenticated, (req, res) => {
     const reviewId = req.params.id;
-    db.run(`DELETE FROM reviews WHERE id = ?`, [reviewId], (err) => {
+
+    // Step 1: Retrieve the image path from the database
+    db.get(`SELECT image_path FROM reviews WHERE id = ?`, [reviewId], (err, row) => {
         if (err) {
-            return res.send('Error deleting review: ' + err.message);
+            return res.send('Error retrieving review: ' + err.message);
         }
-        res.redirect('/reviews');
+
+        // Step 2: If an image path exists, delete the file from the uploads folder
+        if (row && row.image_path) {
+            const filePath = path.join(__dirname, '..', row.image_path);
+            console.log(filePath);
+
+            fs.unlink(filePath, (fsErr) => {
+                if (fsErr && fsErr.code !== 'ENOENT') {
+                    // Log the error if it's not a "file not found" error
+                    console.error('Error deleting file:', fsErr.message);
+                }
+            });
+        }
+
+        // Step 3: Delete the review from the database
+        db.run(`DELETE FROM reviews WHERE id = ?`, [reviewId], (err) => {
+            if (err) {
+                return res.send('Error deleting review: ' + err.message);
+            }
+            res.redirect('/reviews');
+        });
     });
 });
 

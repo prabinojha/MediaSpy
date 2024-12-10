@@ -4,62 +4,56 @@
     <%- include('includes/head', {title:'Dashboard'}) %>
 </head>
 <body>
-    <nav>
-        <p>MediaSpy</p>
-        <a href="/logout">Logout</a>
-        <a href="/reviews">My Reviews</a>
-        <a href="/add-review">Add Review</a>
-
+    <header>
+        <%- include('includes/header')%>
+    </header>
     </nav>
-    <h1>Welcome, <%= username %>!</h1>
-
-    <h2>Movie Reviews</h2>
-    <% if (movieReviews.length > 0) { %>
-        <ul>
-            <% movieReviews.forEach(review => { %>
-                <li>
-                    <strong>Name:</strong> <%= review.name %><br />
-                    <strong>Rating:</strong> <%= review.rating %>/5<br />
-                    <strong>Company:</strong> <%= review.company_name %><br />
-                    <strong>Theme:</strong> <%= review.theme %><br />
-                    <strong>Content:</strong> <%= review.content %><br />
-                    <% if (review.image_path) { %>
-                        <img src="<%= review.image_path %>" alt="Image for <%= review.name %>" style="max-width: 200px; height: auto;" />
-                    <% } %>
-                </li>
-            <% }); %>
-        </ul>
-    <% } else { %>
-        <p>No movie reviews available.</p>
-    <% } %>
-
-    <h2>Video Game Reviews</h2>
-    <% if (videoGameReviews.length > 0) { %>
-        <ul>
-            <% videoGameReviews.forEach(review => { %>
-                <li>
-                    <strong>Name:</strong> <%= review.name %><br />
-                    <strong>Rating:</strong> <%= review.rating %>/5<br />
-                    <strong>Company:</strong> <%= review.company_name %><br />
-                    <strong>Theme:</strong> <%= review.theme %><br />
-                    <strong>Content:</strong> <%= review.content %><br />
-                    <% if (review.image_path) { %>
-                        <img src="<%= review.image_path %>" alt="Image for <%= review.name %>" style="max-width: 200px; height: auto;" />
-                    <% } %>
-                </li>
-            <% }); %>
-        </ul>
-    <% } else { %>
-        <p>No video game reviews available.</p>
-    <% } %>
+    <main>
+        <a href="/logout">Logout</a>
+        <h2>Movie Reviews</h2>
+        <% if (movieReviews.length > 0) { %>
+            <div class="reviews-container">
+                <% movieReviews.forEach(review => { %>
+                    <div class="review-card">
+                        <div class="review-image">
+                            <% if (review.image_path) { %>
+                                <img src="<%= review.image_path %>" alt="Image for <%= review.name %>" />
+                            <% } %>
+                        </div>
+                        <div class="review-content">
+                            <h3 class="review-title"><%= review.name %></h3>
+                            <p class="review-category"><%= review.theme %> | <%= review.company_name %></p>
+                            <p class="review-rating"><%= review.rating %> / 5</p>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        <% } else { %>
+            <p>No movie reviews available.</p>
+        <% } %>
+    
+        <h2>Video Game Reviews</h2>
+        <% if (videoGameReviews.length > 0) { %>
+            <div class="reviews-container">
+                <% videoGameReviews.forEach(review => { %>
+                    <div class="review-card">
+                        <div class="review-image">
+                            <% if (review.image_path) { %>
+                                <img src="<%= review.image_path %>" alt="Image for <%= review.name %>" />
+                            <% } %>
+                        </div>
+                        <div class="review-content">
+                            <h3 class="review-title"><%= review.name %></h3>
+                            <p class="review-category"><%= review.theme %> | <%= review.company_name %></p>
+                            <p class="review-rating"><%= review.rating %> / 5</p>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        <% } else { %>
+            <p>No video game reviews available.</p>
+        <% } %>
+    </main>
+    
 </body>
 </html>
-
-
-
-
-
-
-    
-
-    

@@ -4,9 +4,11 @@
     <%- include('includes/head', {title:'Reviews'}) %>
 </head>
 <body>
+    <header>
+        <%- include('includes/header')%>
+    </header>
     <h1>My Reviews</h1>
     <a href="/dashboard">Back to Dashboard</a>
-
     <ul>
         <% reviews.forEach(review => { %>
             <li>
