@@ -6,13 +6,13 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-// Debugging middleware
+// Middleware passing variables to all routes
 router.use((req, res, next) => {
     res.locals.isLoggedIn = req.session && req.session.user ? true : false;
     next();
 });
 
-// Middleware to redirect logged-in users
+// Middleware to redirect logged in users
 function redirectIfLoggedIn(req, res, next) {
     if (req.session && req.session.user) {
         return res.redirect('/dashboard');
@@ -20,7 +20,7 @@ function redirectIfLoggedIn(req, res, next) {
     next();
 }
 
-// Middleware to ensure user is authenticated
+// Middleware to make sure user is authenticated
 function ensureAuthenticated(req, res, next) {
     if (!req.session || !req.session.user) {
         return res.redirect('/login');
@@ -48,7 +48,7 @@ router.post('/login', (req, res) => {
         const match = await bcrypt.compare(password, user.password);
         if (!match) return res.send('Invalid username or password.');
 
-        req.session.user = { id: user.id, username: user.username }; // Store user info in session
+        req.session.user = { id: user.id, username: user.username };
         res.redirect('/dashboard');
     });
 });
@@ -93,7 +93,7 @@ router.get('/dashboard', (req, res) => {
             videoGameReviews = games;
 
             res.render('dashboard', {
-                username: req.session?.user?.username || null, // Show username only if logged in
+                username: req.session?.user?.username || null,
                 movieReviews,
                 videoGameReviews,
             });
@@ -116,10 +116,12 @@ router.get('/add-review', ensureAuthenticated, (req, res) => {
 // Image storage handling
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/'); // Save files in the uploads folder
+        // Save files in the uploads folder
+        cb(null, 'uploads/');
     },
     filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname)); // Append timestamp to filename
+        // Append timestamp to filename
+        cb(null, Date.now() + path.extname(file.originalname));
     }
 });
 
@@ -219,9 +221,10 @@ router.post('/reviews/update/:id', ensureAuthenticated, (req, res) => {
     );
 });
 
-// Suggestions route
+// Suggestions route (for suggesting previously added movies + video games)
 router.get('/suggestions', ensureAuthenticated, (req, res) => {
-    const { name, type } = req.query; // The name and type from the user's input
+    // The name and type from the user's input
+    const { name, type } = req.query;
 
     let query = `SELECT * FROM reviews WHERE name LIKE ?`;
     let params = [`%${name}%`];

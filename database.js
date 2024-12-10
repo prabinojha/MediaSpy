@@ -1,9 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('./users.db');
 
-// Initialising the database
 db.serialize(() => {
-    // Create users table
     db.run(`
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -12,7 +10,6 @@ db.serialize(() => {
         )
     `);
 
-    // Create reviews table
     db.run(`
         CREATE TABLE IF NOT EXISTS reviews (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
