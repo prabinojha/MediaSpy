@@ -22,7 +22,8 @@
                         <div class="review-content">
                             <h3 class="review-title"><%= review.name %></h3>
                             <p class="review-category"><%= review.theme %> | <%= review.company_name %></p>
-                            <p class="revRating">Viewers Rated <strong><%= review.rating %>/5</strong></p>
+                            <p class="revRating <%= review.rating > 4 ? 'high-rating' : review.rating >= 3 ? 'medium-rating' : 'low-rating' %>">Players Rated <strong><%= review.rating %>/5</strong>
+                            </p>
                         </div>
                     </div>
                 <% }); %>
@@ -44,7 +45,8 @@
                         <div class="review-content">
                             <h3 class="review-title"><%= review.name %></h3>
                             <p class="review-category"><%= review.theme %> | <%= review.company_name %></p>
-                            <p class="revRating">Players Rated <strong><%= review.rating %>/5</strong></p>
+                            <p class="revRating <%= review.rating > 4 ? 'high-rating' : review.rating > 3 ? 'medium-rating' : 'low-rating' %>">Players Rated <strong><%= review.rating %>/5</strong>
+                            </p>
                         </div>
                     </div>
                 <% }); %>

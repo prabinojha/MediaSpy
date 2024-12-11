@@ -312,12 +312,27 @@ textarea {
     color: var(--primary-blue);
 }
 
+.high-rating {
+    background-color: rgb(3, 139, 3);
+}
+
+.medium-rating {
+    background-color: rgb(232, 132, 1);
+}
+
+.low-rating {
+    background-color: rgb(255, 22, 22);
+}
+
 .revRating {
     color: white;
     padding: 6px 18px;
     border-radius: 4px;
-    background-color: var(--primary-blue);
     align-items: center;
+}
+
+.revRating.high-rating {
+    background-color: green;
 }
 
 .my-review-buttons {
