@@ -195,32 +195,12 @@ textarea {
     background-color: #f8f9fa;
 }
 
-/* Review Card Styling */
-
-/* Poster Image */
 .review-poster {
     width: 100%;
     height: auto;
     border-radius: 10px;
     margin-bottom: 20px;
 }
-
-/* Title Styling */
-.review-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-/* Category Styling */
-.review-category {
-    font-size: 1rem;
-    color: #6c757d;
-    margin-bottom: 10px;
-}
-
-/* Rating Styling */
 
 /* Review scrolling feature */
 .reviews-container {
@@ -246,7 +226,7 @@ textarea {
 
 .review-card:hover {
     border: 4px solid black;
-    background-color: rgb(250, 248, 255);
+    background-color: rgba(244, 244, 244, 0.917);
     cursor: pointer;
 }
 
@@ -271,7 +251,8 @@ textarea {
 .review-category {
     font-size: 1rem;
     color: #6c757d;
-    margin-top: 5px;
+    margin-top: 10px;
+    margin-bottom: 15px;
 }
 
 /* Scrollbar Customisation */
