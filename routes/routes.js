@@ -204,7 +204,6 @@ router.get('/reviews/update/:id', ensureAuthenticated, (req, res) => {
     });
 });
 
-
 router.post('/reviews/update/:id', ensureAuthenticated, (req, res) => {
     const reviewId = req.params.id;
     const { name, type, content, rating, company_name, theme } = req.body;

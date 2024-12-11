@@ -4,12 +4,21 @@
     <%- include('includes/head', {title:'Update Reviews'}) %>
 </head>
 <body>
-    <header>
-        <%- include('includes/header')%>
+    <header id="main-header">
+        <div>
+            <a href="/dashboard"> <img id="logo" src="/uploads/logo.png" alt="logo"></a>
+          </div>
+          <nav id="nav-links">
+            <ul>
+                <li><a href="/add-review">Add Review</a></li>
+                <li><a href="/reviews">My Reviews</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+          </nav>
     </header>
     <main class="container">
         <h1>Update Review</h1>
-        <form action="/reviews/update/<%= review.id %>" method="POST">
+        <form action="/reviews/update/<%= review.id %>" method="POST">     
             <input type="text" id="name" name="name" value="<%= review.name %>" required />
             <select id="type" name="type" required>
                 <option value="movie" <%= review.type === 'movie' ? 'selected' : '' %>>Movie</option>
