@@ -126,8 +126,8 @@ a:hover {
 
 /* Form styles */
 form {
-    max-width: 25rem;
-    margin: 1rem auto;
+    max-width: 30rem;
+    margin: 0 auto;
 }
 
 h1 {
@@ -294,9 +294,33 @@ textarea {
     background-color: #f1f1f1;
 }
 
-/* Media Queries */
-@media (max-width: 768px) {
-    .review-container {
-        grid-template-columns: 1fr;
-    }
+/* My-Review styling */
+.personal-review {
+    padding: 2rem;
+    margin: 10px auto;
+    width: 50%;
+    border-radius: 10px;
+    border: 2px solid #000000;
+}
+
+.personal-review p {
+    margin: 10px 0;
+}
+
+.my-review-details {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.my-review-buttons {
+    display: bloc;
+}
+
+#delete {
+    background-color: #fa3e3e;
+}
+
+#delete:hover {
+    background-color: #f72424;
 }

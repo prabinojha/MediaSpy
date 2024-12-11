@@ -9,22 +9,23 @@
     </header>
     <main class="container">
         <h1>My Reviews</h1>
-        <a href="/dashboard">Back to Dashboard</a>
         <ul>
             <% reviews.forEach(review => { %>
                 <li>
-                    <strong><%= review.name %></strong> (<%= review.type %>)
-                    <p>Rating: <%= review.rating %>/5</p>
-                    <p><%= review.company_name %> | <%= review.theme %></p>
-                    <p><%= review.content %></p>
-    
-                    <!-- Delete Review -->
-                    <form action="/reviews/delete/<%= review.id %>" method="POST" style="display: inline;">
-                        <button type="submit">Delete</button>
-                    </form>
-    
-                    <!-- Update Review -->
-                    <a href="/reviews/update/<%= review.id %>">Update</a>
+                    <div class="personal-review">
+                        <%= review.name %> | <%= review.type %>
+                        <div class="my-review-details">
+                            <p>Rating: <%= review.rating %>/5</p>
+                            <p><%= review.company_name %> | <%= review.theme %></p>
+                        </div>
+                        <p><%= review.content %></p>
+                        <div class="my-review-buttons">
+                            <a href="/reviews/update/<%= review.id %>">Update Review</a>
+                            <form action="/reviews/delete/<%= review.id %>" method="POST">
+                                <button id="delete" type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </div>
                 </li>
             <% }); %>
         </ul>
