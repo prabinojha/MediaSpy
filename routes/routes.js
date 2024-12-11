@@ -252,4 +252,10 @@ router.get('/suggestions', ensureAuthenticated, (req, res) => {
     });
 });
 
+// Handling route to each individual review page
+router.get('/view-content/:id', function(req, res) {
+    const reviewId = req.params.id;
+    res.render('view-content', {review: reviewId})
+});
+
 module.exports = router;
