@@ -221,12 +221,6 @@ textarea {
 }
 
 /* Rating Styling */
-.review-rating {
-    font-size: 1.2rem;
-    color: #28a745;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
 
 /* Review scrolling feature */
 .reviews-container {
@@ -266,7 +260,6 @@ textarea {
 /* Review Content */
 .review-content {
     margin-top: 15px;
-    
 }
 
 .review-title {
@@ -279,13 +272,6 @@ textarea {
     font-size: 1rem;
     color: #6c757d;
     margin-top: 5px;
-}
-
-.review-rating {
-    font-size: 1.1rem;
-    color: #28a745;
-    font-weight: bold;
-    margin-top: 10px;
 }
 
 /* Scrollbar Customisation */
@@ -345,11 +331,12 @@ textarea {
     color: var(--primary-blue);
 }
 
-#revRating {
+.revRating {
     color: white;
-    padding: 4px 18px;
-    border-radius: 8px;
+    padding: 6px 18px;
+    border-radius: 4px;
     background-color: var(--primary-blue);
+    align-items: center;
 }
 
 .my-review-buttons {
