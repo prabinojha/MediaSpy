@@ -10,15 +10,18 @@
     <main class="container">
         <h1>My Reviews</h1>
         <ul>
+            <% if (reviews.length > 0) { %>
             <% reviews.forEach(review => { %>
                 <li>
                     <div class="personal-review">
-                        <%= review.name %> | <%= review.type %>
+                        <h2 id="reviewName">
+                            <%= review.name %>
+                        </h2>
                         <div class="my-review-details">
-                            <p>Rating: <%= review.rating %>/5</p>
-                            <p><%= review.company_name %> | <%= review.theme %></p>
+                            <p id="name_theme"><%= review.company_name %> | <%= review.theme %></p>
+                            <p id="revRating"><%= review.rating %>/5</p>
                         </div>
-                        <p><%= review.content %></p>
+                        <p id="my-review-content"><%= review.content %></p>
                         <div class="my-review-buttons">
                             <form action="/reviews/update/<%= review.id %>" method="GET">
                                 <button type="submit">Update</button>
@@ -30,6 +33,11 @@
                     </div>
                 </li>
             <% }); %>
+            <% } else { %>
+                <div id="my-review-div">
+                    <p>It looks like you have no reviews. <a href="/add-review">Create one now!</a></p>
+                </div>
+            <% } %>
         </ul>
     </main>
 </body>
