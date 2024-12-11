@@ -232,7 +232,7 @@ textarea {
 .reviews-container {
     display: flex;
     overflow-x: auto;
-    gap: 30px; /* Adds spacing between review cards */
+    gap: 30px;
     scroll-snap-type: x mandatory;
     margin: 20px 0;
 }
@@ -241,14 +241,19 @@ textarea {
 .review-card {
     flex: 0 0 300px;
     background: #fff;
-    border: 2px solid black;
+    border: 3px solid black;
     border-radius: 10px;
     padding: 20px;
     text-align: center;
     scroll-snap-align: start;
     margin-bottom: 10px;
     box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.3);
+}
 
+.review-card:hover {
+    border: 4px solid black;
+    background-color: rgb(250, 248, 255);
+    cursor: pointer;
 }
 
 /* Review Image */
