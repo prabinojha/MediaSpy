@@ -317,6 +317,10 @@ textarea {
     display: bloc;
 }
 
+.my-review-buttons button {
+    margin: 5px 0;
+}
+
 #delete {
     background-color: #fa3e3e;
 }

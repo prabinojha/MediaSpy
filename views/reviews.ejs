@@ -20,7 +20,9 @@
                         </div>
                         <p><%= review.content %></p>
                         <div class="my-review-buttons">
-                            <a href="/reviews/update/<%= review.id %>">Update Review</a>
+                            <form action="/reviews/update/<%= review.id %>" method="GET">
+                                <button type="submit">Update</button>
+                            </form>
                             <form action="/reviews/delete/<%= review.id %>" method="POST">
                                 <button id="delete" type="submit">Delete</button>
                             </form>
