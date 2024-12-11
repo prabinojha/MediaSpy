@@ -200,7 +200,7 @@ router.get('/reviews/update/:id', ensureAuthenticated, (req, res) => {
         if (err) {
             return res.send('Error fetching review: ' + err.message);
         }
-        res.render('updateReview', { review: review });
+        res.render('updateReview', { review: review});
     });
 });
 
@@ -255,7 +255,13 @@ router.get('/suggestions', ensureAuthenticated, (req, res) => {
 // Handling route to each individual review page
 router.get('/view-content/:id', function(req, res) {
     const reviewId = req.params.id;
-    res.render('view-content', {review: reviewId})
+
+    db.get(`SELECT * FROM reviews WHERE id = ?`, [reviewId], (err, review) => {
+        if (err) {
+            return res.send('Error fetching review: ' + err.message);
+        }
+        res.render('view-content', { review: review});
+    });
 });
 
 module.exports = router;
