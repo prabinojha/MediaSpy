@@ -1,12 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <%- include('includes/head', {title:'View Content'})%>
 </head>
+
 <body>
     <%- include('includes/header')%>
-    <main class="container">
-        <p><%= review.content %></p>
-    </main>
+        <main class="container">
+            <section>
+                <h2>
+                    <%= review.name %>
+                </h2>
+                <div>
+                    <p>
+                        <%= review.theme %> | <%= review.company_name %>
+                    </p>
+                </div>
+                <div>
+                    <img src="<%= review.image_path %>" alt="Image for <%= review.name %>" />
+                </div>
+                <div>
+                    <p>
+                        <%= review.content %>
+                    </p>
+                </div>
+            </section>
+            <section>
+                <div class="personal-review"></div>
+            </section>
+        </main>
 </body>
+
 </html>

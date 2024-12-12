@@ -228,7 +228,7 @@ router.get('/view-content/:id', function(req, res) {
         if (err) {
             return res.send('Error fetching review: ' + err.message);
         }
-        res.render('view-content', { review: review});
+        res.render('view-content', { review: review });
     });
 });
 

@@ -2,7 +2,7 @@
 :root {
     --primary-purple: #8765cb;
     --primary-blue: #1587bf;
-    --primary-yellow: #edca3e;
+    --primary-yellow: #ffec6e;
     --primary-font: 'Poppins', sans-serif;
 }
 
@@ -226,8 +226,7 @@ textarea {
 
 .review-card:hover {
     text-decoration: none;
-    border: 5px solid rgb(53, 51, 53);
-    background-color: rgb(246, 243, 255);
+    background-color: #f2e6ff;
     cursor: pointer;
 }
 
