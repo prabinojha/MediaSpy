@@ -373,9 +373,7 @@ textarea {
     width: 100%;
     padding: 8px 16px;
     font-size: 16px;
-    border: 1px solid #ccc;
     padding-right: 40px;
-    /* Space for the icon */
 }
 
 .magnifying-glass-inside {
