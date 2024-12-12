@@ -395,7 +395,6 @@ textarea {
     left: 0;
     width: 100%;
     background-color: white;
-    border: 1px solid #ccc;
     border-top: none;
     max-height: 200px;
     overflow-y: auto;

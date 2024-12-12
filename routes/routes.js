@@ -220,38 +220,6 @@ router.post('/reviews/update/:id', ensureAuthenticated, (req, res) => {
     );
 });
 
-// Suggestions route (for suggesting previously added movies + video games)
-router.get('/suggestions', ensureAuthenticated, (req, res) => {
-    // The name and type from the user's input
-    const { name, type } = req.query;
-
-    let query = `SELECT * FROM reviews WHERE name LIKE ?`;
-    let params = [`%${name}%`];
-
-    // If the type is specified, filter by it
-    if (type) {
-        query += ` AND type = ?`;
-        params.push(type);
-    }
-
-    db.all(query, params, (err, rows) => {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-
-        // Send back the matching reviews as suggestions
-        const suggestions = rows.map(row => ({
-            name: row.name,
-            type: row.type,
-            content: row.content,
-            rating: row.rating,
-            company_name: row.company_name,
-            theme: row.theme
-        }));
-        res.json(suggestions);
-    });
-});
-
 // Handling route to each individual review page
 router.get('/view-content/:id', function(req, res) {
     const reviewId = req.params.id;
@@ -263,5 +231,7 @@ router.get('/view-content/:id', function(req, res) {
         res.render('view-content', { review: review});
     });
 });
+
+// Suggestions Handling
 
 module.exports = router;
