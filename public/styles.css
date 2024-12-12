@@ -57,9 +57,9 @@ ol {
 #main-header nav a {
     color: black;
     background-color: white;
-    padding: 6px;
+    padding: 8px;
     border-radius: 5px;
-    font-size: 0.9rem;
+    font-size: 1rem;
 }
 
 #main-header nav a:hover,
@@ -95,7 +95,7 @@ input[type="password"] {
     width: 100%;
     padding: 12px;
     margin: 8px 0;
-    border: 1px solid #ddd;
+    border: 1px solid rgb(0, 0, 0);
     border-radius: 5px;
     font-size: 16px;
     box-sizing: border-box;
@@ -111,7 +111,8 @@ button{
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    font: var(--primary-font);
 }
 
 button:hover {
@@ -148,9 +149,9 @@ input,
 textarea,
 select {
     font: inherit;
-    padding: 0.5rem;
+    padding: 0.25rem 0.5rem;
     border-radius: 4px;
-    border: 1px solid rgb(204, 204, 204);
+    border: 1px solid rgb(0, 0, 0);
 }
 
 input:focus,
@@ -165,28 +166,24 @@ textarea {
     min-width: 100%;
 }
 
-/* Autocomplete suggestion styles */
-#suggestions {
-    list-style-type: none;
-    padding: 0;
-    max-height: 200px;
-    overflow-y: auto;
+/* Filter Styling */
+.titleFilter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-#suggestions li {
-    padding: 8px;
-    cursor: pointer;
-    background-color: #f0f0f0;
-    margin-bottom: 5px;
+.mainFilter {
+    all: unset;
+    padding: 0px 3px;
 }
 
-#suggestions li:hover {
-    background-color: #ddd;
+.filter {
+    width: 150px;
 }
 
-.suggestion-details {
-    font-size: 0.9em;
-    color: #555;
+.filter option {
+    width: 150px;
 }
 
 /* General Container */
@@ -209,7 +206,7 @@ textarea {
 .reviews-container {
     display: flex;
     overflow-x: auto;
-    gap: 30px;
+    gap: 1.5rem;
     scroll-snap-type: x mandatory;
     margin: 20px 0;
 }
@@ -224,13 +221,13 @@ textarea {
     text-align: center;
     scroll-snap-align: start;
     margin-bottom: 15px;
-    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.3);
+    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .review-card:hover {
     text-decoration: none;
-    border: 4px solid black;
-    background-color: rgba(244, 244, 244, 0.917);
+    border: 5px solid rgb(53, 51, 53);
+    background-color: rgb(246, 243, 255);
     cursor: pointer;
 }
 
@@ -281,7 +278,7 @@ textarea {
     width: 40%;
     border-radius: 10px;
     border: 2px solid #000000;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
 }
 
 .personal-review p {
@@ -340,7 +337,7 @@ textarea {
 }
 
 .my-review-buttons {
-    display: bloc;
+    display: block;
 }
 
 .my-review-buttons button {
@@ -353,4 +350,29 @@ textarea {
 
 #delete:hover {
     background-color: #f72424;
+}
+
+
+/* Autocomplete suggestion styles */
+#suggestions {
+    list-style-type: none;
+    padding: 0;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#suggestions li {
+    padding: 8px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    margin-bottom: 5px;
+}
+
+#suggestions li:hover {
+    background-color: #ddd;
+}
+
+.suggestion-details {
+    font-size: 0.9em;
+    color: #555;
 }
