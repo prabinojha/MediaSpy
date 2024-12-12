@@ -21,7 +21,7 @@ body {
     height: 100vh;
 }
 
-body main{
+body main {
     margin: 30px 8%;
 }
 
@@ -101,7 +101,7 @@ input[type="password"] {
     box-sizing: border-box;
 }
 
-button{
+button {
     width: 100%;
     padding: 12px;
     background-color: #8765cb;
@@ -352,3 +352,63 @@ textarea {
     background-color: #f72424;
 }
 
+/* Suggestions styling */
+.search-container {
+    flex-grow: 1;
+    margin: 0 1.5rem;
+    position: relative;
+}
+
+.search-container form {
+    all: unset;
+    display: flex;
+    position: relative;
+}
+
+.search-container form input {
+    all: unset;
+    background-color: white;
+    flex-grow: 1;
+    border-radius: 4px;
+    width: 100%;
+    padding: 8px 16px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    padding-right: 40px;
+    /* Space for the icon */
+}
+
+.magnifying-glass-inside {
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    pointer-events: none;
+}
+
+.suggestions-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10;
+}
+
+.suggestions-list li {
+    padding: 6px 16px;
+    cursor: pointer;
+}
+
+.suggestions-list li:hover {
+    background-color: #f0f0f0;
+}
