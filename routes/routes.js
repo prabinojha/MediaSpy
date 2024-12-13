@@ -234,7 +234,12 @@ router.get('/view-content/:id', function(req, res) {
 
 // Suggestions/Search Handling
 router.get('/search', (req, res) => {
-    const query = req.query.query.toLowerCase();
+    const query = req.query.query.trim().toLowerCase();
+
+    if (!query) {
+        return res.redirect('/dashboard');
+    }
+
     const movieQuery = `SELECT * FROM reviews WHERE type = 'movie' AND name LIKE ?`;
     const videoGameQuery = `SELECT * FROM reviews WHERE type = 'video_game' AND name LIKE ?`;
 
