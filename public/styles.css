@@ -226,7 +226,7 @@ textarea {
 
 .review-card:hover {
     text-decoration: none;
-    background-color: #f6edff;
+    background-color: #f4eaff;
     box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.3);
     cursor: pointer;
 }
@@ -356,7 +356,7 @@ textarea {
 .search-container {
     flex-grow: 1;
     margin: 0 1.5rem;
-    position: relative;
+    position: relative;    
 }
 
 .search-container form {
@@ -374,6 +374,12 @@ textarea {
     padding: 8px 16px;
     font-size: 16px;
     padding-right: 40px;
+    border: 1px solid black;
+}
+
+.search-container input:focus {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .magnifying-glass-inside {
@@ -391,13 +397,13 @@ textarea {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    border: 1px solid #ccc;
+    border: 1px solid black;
     border-top: none;
     border-radius: 0 0 4px 4px;
-    max-height: 200px;
+    max-height: 400px;
     overflow-y: auto;
     position: absolute;
-    top: 100%; 
+    top: 100%;
     width: 100%;
     background: #fff;
     z-index: 1000;
@@ -434,5 +440,5 @@ textarea {
 }
 
 .suggestions-list li:hover {
-    background-color: #f6edff;
+    background-color: #f4eaff;
 }
