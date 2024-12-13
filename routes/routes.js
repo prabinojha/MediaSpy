@@ -233,6 +233,30 @@ router.get('/view-content/:id', function(req, res) {
 });
 
 // Suggestions/Search Handling
+router.get('/search', (req, res) => {
+    const query = req.query.query.toLowerCase();
+    const movieQuery = `SELECT * FROM reviews WHERE type = 'movie' AND name LIKE ?`;
+    const videoGameQuery = `SELECT * FROM reviews WHERE type = 'video_game' AND name LIKE ?`;
+
+    // Searching for movies
+    db.all(movieQuery, [`%${query}%`], (err, movieResults) => {
+        if (err) {
+            console.error('Error fetching movie data:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+
+        // Searching for video games
+        db.all(videoGameQuery, [`%${query}%`], (err, videoGameResults) => {
+            if (err) {
+                console.error('Error fetching video game data:', err);
+                return res.status(500).send('Internal Server Error');
+            }
+
+            // Sending search results back to the front-end
+            res.json({ movieResults, videoGameResults });
+        });
+    });
+});
 
 
 module.exports = router;
