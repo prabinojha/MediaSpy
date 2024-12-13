@@ -232,12 +232,44 @@ router.get('/view-content/:id', function(req, res) {
     });
 });
 
-// Suggestions/Search Handling
+// Search Handling
 router.get('/search', (req, res) => {
     const query = req.query.query.trim().toLowerCase();
 
     if (!query) {
         return res.redirect('/dashboard');
+    }
+
+    const movieQuery = `SELECT * FROM reviews WHERE type = 'movie' AND name LIKE ?`;
+    const videoGameQuery = `SELECT * FROM reviews WHERE type = 'video_game' AND name LIKE ?`;
+
+    db.all(movieQuery, [`%${query}%`], (err, movieResults) => {
+        if (err) {
+            console.error('Error fetching movie data:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+
+        db.all(videoGameQuery, [`%${query}%`], (err, videoGameResults) => {
+            if (err) {
+                console.error('Error fetching video game data:', err);
+                return res.status(500).send('Internal Server Error');
+            }
+
+            res.render('search', {
+                query: query,
+                movieResults: movieResults,
+                videoGameResults: videoGameResults
+            });
+        });
+    });
+});
+
+// Server-side route for search suggestions
+router.get('/search-suggestions', (req, res) => {
+    const query = req.query.query.trim().toLowerCase();
+
+    if (!query) {
+        return res.json({ movieResults: [], videoGameResults: [] });
     }
 
     const movieQuery = `SELECT * FROM reviews WHERE type = 'movie' AND name LIKE ?`;

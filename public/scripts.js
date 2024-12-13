@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
         suggestionsList.innerHTML = '';
 
         if (query) {
-            fetch(`/search?query=${query}`)
+            fetch(`/search-suggestions?query=${query}`)
                 .then(response => response.json())
                 .then(data => {
                     const { movieResults, videoGameResults } = data;
