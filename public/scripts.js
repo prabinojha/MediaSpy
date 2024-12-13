@@ -3,22 +3,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.getElementById("search-input");
     const suggestionsList = document.getElementById("suggestions-list");
 
-    // Function to show suggestions
     function showSuggestions() {
         suggestionsList.style.display = 'block';
     }
 
-    // Function to hide suggestions
     function hideSuggestions() {
         suggestionsList.style.display = 'none';
     }
 
-    // Event listener to show suggestions when typing in the search bar
     searchInput.addEventListener("input", function () {
         showSuggestions();
     });
 
-    // Event listener to hide suggestions when clicking outside the search container
     document.addEventListener("click", function (event) {
         if (!searchInput.contains(event.target) && !suggestionsList.contains(event.target)) {
             hideSuggestions();
@@ -35,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
         event.stopPropagation();
     });
 
-    const dummyData = [
+    const data = [
         {
             image: 'https://via.placeholder.com/50',
             title: 'Inception',
@@ -64,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
         suggestionsList.innerHTML = '';
 
         if (query) {
-            const filteredData = dummyData.filter(item =>
+            const filteredData = data.filter(item =>
                 item.title.toLowerCase().includes(query)
             );
 
@@ -78,8 +74,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                 `;
 
-                // Add event listener to log the title when clicked
                 listItem.addEventListener('click', function () {
+                    // Redirect to that review --> /view-content/id
                     console.log(item.title);
                 });
 

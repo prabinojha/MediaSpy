@@ -232,7 +232,7 @@ router.get('/view-content/:id', function(req, res) {
     });
 });
 
-// Suggestions Handling
+// Suggestions/Search Handling
 
 
 module.exports = router;
