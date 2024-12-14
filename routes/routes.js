@@ -134,10 +134,21 @@ router.post('/reviews', ensureAuthenticated, upload.single('image'), async (req,
         const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
 
         const query = `
-            INSERT INTO reviews (name, type, age, content, rating, company_name, theme, user_id, image_path)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO reviews (name, type, age, content, rating, company_name, theme, user_id, username, image_path)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
-        const values = [name, type, age, content, rating, company_name, theme, req.session.user.id, imagePath];
+        const values = [
+            name,
+            type,
+            age,
+            content,
+            rating,
+            company_name,
+            theme,
+            req.session.user.id,
+            req.session.user.username,
+            imagePath
+        ];
 
         db.run(query, values);
         res.redirect('/dashboard');
@@ -146,6 +157,7 @@ router.post('/reviews', ensureAuthenticated, upload.single('image'), async (req,
         res.status(500).send('Error adding review');
     }
 });
+
 
 
 // View all reviews for the logged-in user

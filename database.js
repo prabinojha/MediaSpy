@@ -9,11 +9,11 @@ db.serialize(() => {
             password TEXT
         )
     `);
-
     db.run(`
         CREATE TABLE IF NOT EXISTS reviews (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER,
+            username TEXT NOT NULL,
             name TEXT NOT NULL,
             type TEXT CHECK(type IN ('movie', 'video_game')) NOT NULL,
             age TEXT CHECK(age IN ('General', 'Parental Guidance', 'Mature', 'Restricted R', 'Restricted X')) NOT NULL,
@@ -22,6 +22,7 @@ db.serialize(() => {
             company_name TEXT,
             theme TEXT,
             image_path TEXT,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
         )
     `);    
