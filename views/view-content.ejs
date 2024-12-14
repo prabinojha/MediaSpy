@@ -56,12 +56,12 @@
                     <ul>
                         <% reviews.forEach(function(reviews) { %>
                             <li>
-                                <div class="personal-review">
+                                <div class="view-content-review">
                                     <h2 id="reviewName">
                                         <%= review.name %>
                                     </h2>
-                                    <div class="my-review-details">
-                                        <p id="name_theme">
+                                    <div>
+                                        <p>
                                             <%= review.company_name %> | <%= review.theme %>
                                         </p>
                                         <p
@@ -69,15 +69,9 @@
                                             <%=review.rating%>/5
                                         </p>
                                     </div>
-                                    <p id="my-review-content">
+                                    <p>
                                         <%= review.content %>
                                     </p>
-                                    <div class="my-review-buttons">
-                                        <form action="/reviews/update/<%= review.id %>" method="GET"> <button
-                                                type="submit">Update</button> </form>
-                                        <form action="/reviews/delete/<%= review.id %>" method="POST"> <button
-                                                id="delete" type="submit">Delete</button> </form>
-                                    </div>
                                 </div>
                             </li>
                             <% }); %>
