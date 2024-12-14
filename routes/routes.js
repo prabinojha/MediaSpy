@@ -66,7 +66,7 @@ router.post('/register', async (req, res) => {
 
     db.run('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashedPassword], (err) => {
         if (err) return res.send('Username already exists.');
-        res.redirect('/');
+        res.redirect('/login');
     });
 });
 
