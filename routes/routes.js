@@ -311,5 +311,27 @@ router.get('/search-suggestions', (req, res) => {
     });
 });
 
+router.get('/api/reviews/search', (req, res) => {
+    const query = req.query.q;
+    if (!query) {
+        return res.status(400).send({ error: 'Query parameter is required' });
+    }
+
+    const sql = `
+        SELECT * FROM reviews 
+        WHERE name LIKE ? 
+        LIMIT 5
+    `;
+    const params = [`%${query}%`];
+
+    db.all(sql, params, (err, reviews) => {
+        if (err) {
+            console.error('Error fetching reviews:', err);
+            return res.status(500).send({ error: 'Internal Server Error' });
+        }
+
+        res.json(reviews);
+    });
+});
 
 module.exports = router;

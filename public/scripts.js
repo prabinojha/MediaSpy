@@ -76,3 +76,60 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+
+const nameInput = document.getElementById('name');
+const suggestionBox = document.createElement('div');
+suggestionBox.id = 'suggestion-box';
+document.body.appendChild(suggestionBox);
+
+nameInput.addEventListener('input', async (e) => {
+    const query = e.target.value;
+    suggestionBox.innerHTML = ''; // Clear previous suggestions
+    if (query.length < 2) return; // Wait until at least 2 characters are typed
+
+    try {
+        const response = await fetch(`/api/reviews/search?q=${encodeURIComponent(query)}`);
+        if (!response.ok) throw new Error('Failed to fetch suggestions');
+
+        const suggestions = await response.json();
+        suggestions.forEach(suggestion => {
+            const suggestionItem = document.createElement('div');
+            suggestionItem.textContent = suggestion.name;
+            suggestionItem.className = 'suggestion-item';
+
+            // On click, populate the form with the selected review's data
+            suggestionItem.addEventListener('click', () => {
+                nameInput.value = suggestion.name;
+                document.querySelector('select[name="type"]').value = suggestion.type;
+                document.querySelector('select[name="age"]').value = suggestion.age;
+                document.querySelector('select[name="rating"]').value = suggestion.rating;
+                document.querySelector('textarea[name="content"]').value = suggestion.content;
+                document.querySelector('input[name="company_name"]').value = suggestion.company_name;
+                document.querySelector('input[name="theme"]').value = suggestion.theme;
+                suggestionBox.innerHTML = ''; // Clear suggestions after selection
+            });
+
+            suggestionBox.appendChild(suggestionItem);
+        });
+
+        // Position the suggestion box near the input
+        const rect = nameInput.getBoundingClientRect();
+        suggestionBox.style.position = 'absolute';
+        suggestionBox.style.top = `${rect.bottom + window.scrollY}px`;
+        suggestionBox.style.left = `${rect.left + window.scrollX}px`;
+        suggestionBox.style.width = `${rect.width}px`;
+        suggestionBox.style.border = '1px solid #ccc';
+        suggestionBox.style.backgroundColor = 'white';
+        suggestionBox.style.zIndex = '1000';
+    } catch (error) {
+        console.error('Error fetching suggestions:', error);
+    }
+});
+
+// Hide the suggestion box if clicked outside
+document.addEventListener('click', (e) => {
+    if (!nameInput.contains(e.target) && !suggestionBox.contains(e.target)) {
+        suggestionBox.innerHTML = '';
+    }
+});

@@ -670,3 +670,19 @@ textarea {
     margin-top: 10px;
     text-align: left;
 }
+
+/* Suggestions for the add-review form */
+#suggestion-box {
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.suggestion-item {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;
+}
