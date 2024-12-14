@@ -91,14 +91,21 @@ p {
 
 /* Form fields */
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+input[type="file"] {
     width: 100%;
     padding: 12px;
-    margin: 8px 0;
+    margin: 6px 0;
     border: 1px solid rgb(0, 0, 0);
     border-radius: 5px;
     font-size: 16px;
     box-sizing: border-box;
+}
+
+.selectContent {
+    display: flex;
+    margin: 6px 0px;
+    justify-content: space-between;
 }
 
 button {
@@ -154,9 +161,15 @@ select {
     border: 1px solid rgb(0, 0, 0);
 }
 
+textarea {
+    margin: 6px 0px;
+    padding: 12px;
+
+}
+
 input:focus,
 textarea:focus {
-    background-color: rgb(217, 234, 247);
+    background-color: rgb(226, 241, 252);
 }
 
 input,

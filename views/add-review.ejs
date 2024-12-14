@@ -7,28 +7,38 @@
 
 <body>
     <%- include('includes/header')%>
-    <main class="container">
-        <h1>Add a Review</h2>
-            <form action="/reviews" method="POST" enctype="multipart/form-data">
-                <input type="text" id="name" name="name" placeholder="Name of Movie or Video Game" required autocomplete="off" />
-                <select name="type" required>
-                    <option value="movie">Movie</option>
-                    <option value="video_game">Video Game</option>
-                </select>
-                <select name="age" required>
-                    <option value="General">General (G)</option>
-                    <option value="Parental Guidance">Parental Guidance (PG)</option>
-                    <option value="Mature">Mature (M)</option>
-                    <option value="Restricted R">Restricted (R 18+)</option>
-                    <option value="Restricted X">Restricted (X 18+)</option>
-                </select>
-                <textarea name="content" placeholder="Write your review here..." required></textarea>
-                <input type="number" name="rating" min="1" max="5" placeholder="Rating (1-5)" required />
-                <input type="text" name="company_name" placeholder="Company Name" required />
-                <input type="text" name="theme" placeholder="Theme" required />
-                <input type="file" name="image" accept="image/*" required />
-                <button type="submit">Submit Review</button>
-            </form>
-    </main>
+        <main class="container">
+            <h1>Add a Review</h2>
+                <form action="/reviews" method="POST" enctype="multipart/form-data">
+                    <input type="text" id="name" name="name" placeholder="Name of Movie or Video Game" required
+                        autocomplete="off" />
+                    <div class="selectContent">
+                        <select name="type" required>
+                            <option value="movie">Movie</option>
+                            <option value="video_game">Video Game</option>
+                        </select>
+                        <select name="age" required>
+                            <option value="General">General (G)</option>
+                            <option value="Parental Guidance">Parental Guidance (PG)</option>
+                            <option value="Mature">Mature (M)</option>
+                            <option value="Restricted R">Restricted (R 18+)</option>
+                            <option value="Restricted X">Restricted (X 18+)</option>
+                        </select>
+                        <select name="rating" required>
+                            <option value="1">1 / 5</option>
+                            <option value="2">2 / 5</option>
+                            <option value="3">3 / 5</option>
+                            <option value="4">4 / 5</option>
+                            <option value="5">5 / 5</option>
+                        </select>
+                    </div>
+                    <textarea name="content" placeholder="Write your review here" required></textarea>
+                    <input type="text" name="company_name" placeholder="Company Name" required />
+                    <input type="text" name="theme" placeholder="Theme" required />
+                    <input type="file" name="image" accept="image/*" required />
+                    <button type="submit">Submit Review</button>
+                </form>
+        </main>
 </body>
+
 </html>
