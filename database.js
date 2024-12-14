@@ -16,6 +16,7 @@ db.serialize(() => {
             user_id INTEGER,
             name TEXT NOT NULL,
             type TEXT CHECK(type IN ('movie', 'video_game')) NOT NULL,
+            age TEXT CHECK(age IN ('general', 'parentalGuidance', 'mature', 'restrictedR', 'restrictedX')) NOT NULL,
             content TEXT,
             rating INTEGER CHECK(rating >= 1 AND rating <= 5),
             company_name TEXT,
@@ -23,7 +24,7 @@ db.serialize(() => {
             image_path TEXT,
             FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
         )
-    `);
+    `);    
 });
 
 module.exports = db;

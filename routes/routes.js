@@ -130,14 +130,14 @@ const upload = multer({ storage });
 // Route to handle adding reviews
 router.post('/reviews', ensureAuthenticated, upload.single('image'), async (req, res) => {
     try {
-        const { name, type, content, rating, company_name, theme } = req.body;
+        const { name, type, age, content, rating, company_name, theme } = req.body;
         const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
 
         const query = `
-            INSERT INTO reviews (name, type, content, rating, company_name, theme, user_id, image_path)
-            VALUES (? ,?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO reviews (name, type, age, content, rating, company_name, theme, user_id, image_path)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
-        const values = [name, type, content, rating, company_name, theme, req.session.user.id, imagePath];
+        const values = [name, type, age, content, rating, company_name, theme, req.session.user.id, imagePath];
 
         db.run(query, values);
         res.redirect('/dashboard');
@@ -206,11 +206,11 @@ router.get('/reviews/update/:id', ensureAuthenticated, (req, res) => {
 
 router.post('/reviews/update/:id', ensureAuthenticated, (req, res) => {
     const reviewId = req.params.id;
-    const { name, type, content, rating, company_name, theme } = req.body;
+    const { name, type, age, content, rating, company_name, theme } = req.body;
 
     db.run(
-        `UPDATE reviews SET name = ?, type = ?, content = ?, rating = ?, company_name = ?, theme = ? WHERE id = ?`,
-        [name, type, content, rating, company_name, theme, reviewId],
+        `UPDATE reviews SET name = ?, type = ?, age = ?, content = ?, rating = ?, company_name = ?, theme = ? WHERE id = ?`,
+        [name, type, age, content, rating, company_name, theme, reviewId],
         (err) => {
             if (err) {
                 return res.send('Error updating review: ' + err.message);
