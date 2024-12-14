@@ -16,7 +16,7 @@ db.serialize(() => {
             user_id INTEGER,
             name TEXT NOT NULL,
             type TEXT CHECK(type IN ('movie', 'video_game')) NOT NULL,
-            age TEXT CHECK(age IN ('general', 'parentalGuidance', 'mature', 'restrictedR', 'restrictedX')) NOT NULL,
+            age TEXT CHECK(age IN ('General', 'Parental Guidance', 'Mature', 'Restricted R', 'Restricted X')) NOT NULL,
             content TEXT,
             rating INTEGER CHECK(rating >= 1 AND rating <= 5),
             company_name TEXT,

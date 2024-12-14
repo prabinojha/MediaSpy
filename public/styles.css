@@ -551,3 +551,57 @@ textarea {
     justify-content: space-between;
     flex-grow: 1;
 }
+
+/* View content styling */
+
+.view-content-container {
+    text-align: center;
+    margin: 30px 25%;
+}
+
+.view-content-container h2 {
+    margin-bottom: 20px;
+}
+
+.view-content-info {
+    display: flex;
+    align-items: start;
+    margin-bottom: 20px;
+}
+
+.view-content-info h3 {
+    color: var(--primary-purple);
+    font-size: large;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.view-content-detail div {
+    margin-bottom: 20px;
+}
+
+.view-content-detail {
+    text-align: left;
+}
+
+.view-content-image {
+    height: 300px;
+    width: 300px;
+    margin-right: 20px;
+    object-fit: cover;
+    border-radius: 4px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
+    
+}
+
+.view-content-rating {
+    padding: 8px 8px;
+    color: white;
+    border-radius: 4px;
+}
+
+.view-content-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

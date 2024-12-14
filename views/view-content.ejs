@@ -1,35 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <%- include('includes/head', {title:'View Content'})%>
-</head>
+    <%- include('includes/head', {title:'View Content'}) %>
 
 <body>
-    <%- include('includes/header')%>
-        <main class="container">
-            <section>
-                <h2>
-                    <%= review.name %>
-                </h2>
+    <%- include('includes/header') %>
+    <main class="view-content-container">
+        <h2><%= review.name %></h2>
+        <section class="view-content-info">
+            <div>
+                <img class="view-content-image" src="<%= review.image_path %>" alt="Image for <%= review.name %>">
+            </div>
+            <div class="view-content-detail">
                 <div>
-                    <p>
-                        <%= review.theme %> | <%= review.company_name %>
-                    </p>
+                    <h3>Theme</h3>
+                    <p><%= review.theme %></p>
                 </div>
                 <div>
-                    <img src="<%= review.image_path %>" alt="Image for <%= review.name %>" />
+                    <h3>Company</h3>
+                    <p><%= review.company_name %></p>
                 </div>
                 <div>
-                    <p>
-                        <%= review.content %>
-                    </p>
+                    <h3>Age Rating</h3>
+                    <p><%= review.age %></p>
                 </div>
-            </section>
-            <section>
-                <div class="personal-review"></div>
-            </section>
-        </main>
+            </div>
+
+        </section>
+        <section class="view-content-actions">
+            <div>
+                <p class="view-content-rating <%= review.rating > 4 ? 'high-rating' : review.rating >= 3 ? 'medium-rating' : 'low-rating' %>"><%=review.rating%>/5</p>
+
+            </div>
+            <div>
+                <a>Filter by date</a>
+            </div>
+            <div>
+                <a>Create a review</a>
+            </div>
+        </section>
+        <section class="content">
+            <p><%= review.content %></p>
+        </section>
+        <section>
+            <% personalReviews.forEach(function(personalReview) { %>
+                <div class="review">
+                    <div class="review-header">
+                        <span class="rating"><%= personalReview.rating %> / 5</span>
+                        <span class="name"><%= personalReview.name %></span>
+                    </div>
+                    <div class="review-content">
+                        <p><%= personalReview.content %></p>
+                    </div>
+                    <div class="review-footer">
+                        <span><%= personalReview.date %></span>
+                    </div>
+                </div>
+            <% }); %>
+        </section>
+    </main>
 </body>
 
 </html>

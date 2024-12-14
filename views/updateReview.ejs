@@ -14,11 +14,11 @@
                 <option value="video_game" <%= review.type === 'video_game' ? 'selected' : '' %>>Video Game</option>
             </select>
             <select id="age" name="age" required>
-                <option value="general" <%= review.age === 'general' ? 'selected' : '' %>>General (G)</option>
-                <option value="parentalGuidance" <%= review.age === 'parentalGuidance' ? 'selected' : '' %>>Parental Guidance (PG)</option>
-                <option value="mature" <%= review.age === 'mature' ? 'selected' : '' %>>Mature (M)</option>
-                <option value="restrictedR" <%= review.age === 'restrictedR' ? 'selected' : '' %>>Restricted (R 18+)</option>
-                <option value="restrictedX" <%= review.age === 'restrictedX' ? 'selected' : '' %>>Restricted (X 18+)</option>
+                <option value="General" <%= review.age === 'General' ? 'selected' : '' %>>General (G)</option>
+                <option value="Parental Guidance" <%= review.age === 'Parental Guidance' ? 'selected' : '' %>>Parental Guidance (PG)</option>
+                <option value="Mature" <%= review.age === 'Mature' ? 'selected' : '' %>>Mature (M)</option>
+                <option value="Restricted R" <%= review.age === 'Restricted R' ? 'selected' : '' %>>Restricted (R 18+)</option>
+                <option value="Restricted X" <%= review.age === 'Restricted X' ? 'selected' : '' %>>Restricted (X 18+)</option>
             </select>
             <textarea id="content" name="content" required><%= review.content %></textarea>
             <input type="number" id="rating" name="rating" min="1" max="5" value="<%= review.rating %>" required />
