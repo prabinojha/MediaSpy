@@ -229,12 +229,12 @@ router.get('/view-content/:id', function(req, res) {
             return res.send('Error fetching review: ' + err.message);
         }
 
-        db.all(`SELECT * FROM reviews WHERE name = ? AND id != ?`, [review.name, reviewId], (err, personalReviews) => {
+        db.all(`SELECT * FROM reviews WHERE name = ? AND id != ?`, [review.name, reviewId], (err, reviews) => {
             if (err) {
                 return res.send('Error fetching personal reviews: ' + err.message);
             }
 
-            res.render('view-content', { review: review, personalReviews: personalReviews });
+            res.render('view-content', { review: review, reviews: reviews });
         });
     });
 });

@@ -6,12 +6,12 @@
 <body>
     <%- include('includes/header') %>
     <main class="view-content-container">
-        <h2><%= review.name %></h2>
         <section class="view-content-info">
-            <div>
+            <div id="sizing">
                 <img class="view-content-image" src="<%= review.image_path %>" alt="Image for <%= review.name %>">
             </div>
             <div class="view-content-detail">
+                <h2><%= review.name %></h2>
                 <div>
                     <h3>Theme</h3>
                     <p><%= review.theme %></p>
@@ -39,24 +39,32 @@
                 <a>Create a review</a>
             </div>
         </section>
-        <section class="content">
-            <p><%= review.content %></p>
-        </section>
         <section>
-            <% personalReviews.forEach(function(personalReview) { %>
-                <div class="review">
-                    <div class="review-header">
-                        <span class="rating"><%= personalReview.rating %> / 5</span>
-                        <span class="name"><%= personalReview.name %></span>
-                    </div>
-                    <div class="review-content">
-                        <p><%= personalReview.content %></p>
-                    </div>
-                    <div class="review-footer">
-                        <span><%= personalReview.date %></span>
-                    </div>
-                </div>
-            <% }); %>
+            <ul>
+                <% reviews.forEach(function(reviews) { %>
+                    <li>
+                        <div class="personal-review">
+                            <h2 id="reviewName">
+                                <%= review.name %>
+                            </h2>
+                            <div class="my-review-details">
+                                <p id="name_theme"><%= review.company_name %> | <%= review.theme %></p>
+                                <p class="revRating <%= review.rating > 4 ? 'high-rating' : review.rating >= 3 ? 'medium-rating' : 'low-rating' %>"><%=review.rating%>/5</p>
+                            </div>
+                            <p id="my-review-content"><%= review.content %></p>
+                            <div class="my-review-buttons">
+                                <form action="/reviews/update/<%= review.id %>" method="GET">
+                                    <button type="submit">Update</button>
+                                </form>
+                                <form action="/reviews/delete/<%= review.id %>" method="POST">
+                                    <button id="delete" type="submit">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+                <% }); %>
+            </ul>
+        
         </section>
     </main>
 </body>

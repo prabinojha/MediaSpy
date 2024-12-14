@@ -560,7 +560,7 @@ textarea {
 }
 
 .view-content-container h2 {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .view-content-info {
@@ -584,10 +584,15 @@ textarea {
     text-align: left;
 }
 
+.view-content-detail p {
+    font-size: 16px;
+}
+
 .view-content-image {
     height: 300px;
-    width: 300px;
+    width: 250px;
     margin-right: 20px;
+    margin-top: 10px;
     object-fit: cover;
     border-radius: 4px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
