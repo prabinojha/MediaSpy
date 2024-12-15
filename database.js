@@ -9,6 +9,7 @@ db.serialize(() => {
             password TEXT
         )
     `);
+
     db.run(`
         CREATE TABLE IF NOT EXISTS reviews (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -22,6 +23,7 @@ db.serialize(() => {
             company_name TEXT,
             theme TEXT,
             image_path TEXT,
+            reviewItem BOOLEAN DEFAULT FALSE,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
         )

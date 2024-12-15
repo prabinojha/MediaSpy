@@ -134,9 +134,12 @@ router.post('/reviews', ensureAuthenticated, upload.single('image'), async (req,
         const { name, type, age, content, rating, company_name, theme } = req.body;
         const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
 
+        // Set reviewItem to true if an image is uploaded, otherwise false
+        const reviewItem = req.file ? true : false;
+
         const query = `
-            INSERT INTO reviews (name, type, age, content, rating, company_name, theme, user_id, username, image_path)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO reviews (name, type, age, content, rating, company_name, theme, user_id, username, image_path, reviewItem)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
         const values = [
             name,
@@ -148,16 +151,23 @@ router.post('/reviews', ensureAuthenticated, upload.single('image'), async (req,
             theme,
             req.session.user.id,
             req.session.user.username,
-            imagePath
+            imagePath,
+            reviewItem
         ];
 
-        db.run(query, values);
-        res.redirect('/dashboard');
+        db.run(query, values, function (err) {
+            if (err) {
+                console.error('Error adding review:', err.message);
+                return res.status(500).send('Error adding review');
+            }
+            res.redirect('/dashboard');
+        });
     } catch (error) {
         console.error('Error adding review:', error.message);
         res.status(500).send('Error adding review');
     }
 });
+
 
 // View all reviews for the logged-in user
 router.get('/reviews', ensureAuthenticated, (req, res) => {

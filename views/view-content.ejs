@@ -68,19 +68,19 @@
                                     <div class="view-content-review-info">
                                         <div class="user-review-info">
                                             <p class="view-content-review-username">
-                                                <%= review.username %>
+                                                <%= reviews.username %>
                                             </p>
                                             <p class="view-content-review-date">
-                                                <%= new Date(review.created_at).toLocaleDateString('en-US', {
+                                                <%= new Date(reviews.created_at).toLocaleDateString('en-US', {
                                                     year: 'numeric' , month: 'long' , day: 'numeric' , hour: '2-digit' ,
                                                     minute: '2-digit' }) %>
                                             </p>
                                         </div>
                                         <div>
                                             <p
-                                                class="revRating <%= review.rating > 4 ? 'high-rating' : review.rating >= 3 ? 'medium-rating' : 'low-rating' %>">
+                                                class="revRating <%= reviews.rating > 4 ? 'high-rating' : reviews.rating >= 3 ? 'medium-rating' : 'low-rating' %>">
                                                 <strong>
-                                                    <%=review.rating%>/5
+                                                    <%=reviews.rating%>/5
                                                 </strong>
                                             </p>
                                         </div>
@@ -88,7 +88,7 @@
                                     <hr>
                                     <div class="view-content-content">
                                         <p>
-                                            <%= review.content %>
+                                            <%= reviews.content %>
                                         </p>
                                     </div>
                                 </div>

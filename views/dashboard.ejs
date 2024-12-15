@@ -7,37 +7,38 @@
 
 <body>
     <%- include('includes/header')%>
-    <main>
-        <div class="titleFilter">
-            <h2>Movie Reviews</h2>
-            <div>
-                <form class="mainFilter" action="/filter" method="GET">
-                    <select class="filter" name="filter" required>
-                        <option value="movie">Highest Rated</option>
-                        <option value="movie">Lowest Rated</option>
-                    </select>
-                </form>
-                <form class="mainFilter" action="/filter" method="GET">
-                    <select class="filter" name="filter" required>
-                        <option value="movie">General (G)</option>
-                        <option value="movie">Parental Guidance (PG)</option>
-                        <option value="movie">Mature (M)</option>
-                        <option value="movie">Mature Accompanied (MA 15+)</option>
-                        <option value="movie">Restricted (R 18+)</option>
-                        <option value="movie">Restricted (X 18+)</option>
-                    </select>
-                </form>
+        <main>
+            <div class="titleFilter">
+                <h2>Movie Reviews</h2>
+                <div>
+                    <form class="mainFilter" action="/filter" method="GET">
+                        <select class="filter" name="filter" required>
+                            <option value="movie">Highest Rated</option>
+                            <option value="movie">Lowest Rated</option>
+                        </select>
+                    </form>
+                    <form class="mainFilter" action="/filter" method="GET">
+                        <select class="filter" name="filter" required>
+                            <option value="movie">General (G)</option>
+                            <option value="movie">Parental Guidance (PG)</option>
+                            <option value="movie">Mature (M)</option>
+                            <option value="movie">Mature Accompanied (MA 15+)</option>
+                            <option value="movie">Restricted (R 18+)</option>
+                            <option value="movie">Restricted (X 18+)</option>
+                        </select>
+                    </form>
+                </div>
             </div>
-        </div>
-        <hr>
-        <% if (movieReviews.length> 0) { %>
+            <hr>
+            <% if (movieReviews.length> 0) { %>
                 <div class="reviews-container">
                     <% movieReviews.forEach(review=> { %>
+                        <% if (review.reviewItem) { %>
                             <a class="review-card" href="/view-content/<%= review.id %>">
                                 <div class="review-image">
                                     <% if (review.image_path) { %>
                                         <img src="<%= review.image_path %>" alt="Image for <%= review.name %>" />
-                                     <% } %>
+                                        <% } %>
                                 </div>
                                 <div class="review-content">
                                     <h3 class="review-title">
@@ -46,49 +47,57 @@
                                     <p class="review-category">
                                         <%= review.theme %> | <%= review.company_name %>
                                     </p>
-                                    <p class="revRating <%= review.rating > 4 ? 'high-rating' : review.rating >= 3 ? 'medium-rating' : 'low-rating' %>">
-                                        Viewers Rated <strong><%= review.rating %>/5</strong>
+                                    <p
+                                        class="revRating <%= review.rating > 4 ? 'high-rating' : review.rating >= 3 ? 'medium-rating' : 'low-rating' %>">
+                                        Viewers Rated <strong>
+                                            <%= review.rating %>/5
+                                        </strong>
                                     </p>
                                 </div>
                             </a>
-                        <% }); %>
-                </div>
-            <% } else { %>
-                <p>No movie reviews available.</p>
-                <% } %>
-
-                    <h2>Video Game Reviews</h2>
-                    <hr>
-                    <% if (videoGameReviews.length> 0) { %>
-                        <div class="reviews-container">
-                            <% videoGameReviews.forEach(review=> { %>
-                                <a class="review-card" href="/view-content/<%= review.id %>">
-                                    <div class="review-image">
-                                        <% if (review.image_path) { %>
-                                            <img src="<%= review.image_path %>" alt="Image for <%= review.name %>" />
-                                            <% } %>
-                                    </div>
-                                    <div class="review-content">
-                                        <h3 class="review-title">
-                                            <%= review.name %>
-                                        </h3>
-                                        <p class="review-category">
-                                            <%= review.theme %> | <%= review.company_name %>
-                                        </p>
-                                        <p
-                                            class="revRating <%= review.rating > 4 ? 'high-rating' : review.rating >= 3 ? 'medium-rating' : 'low-rating' %>">
-                                            Players Rated <strong>
-                                                <%= review.rating %>/5
-                                            </strong>
-                                        </p>
-                                    </div>
-                                </a>
-                                <% }); %>
-                        </div>
-                        <% } else { %>
-                            <p>No video game reviews available.</p>
                             <% } %>
-    </main>
+                                <% }); %>
+                </div>
+                <% } else { %>
+                    <p>No movie reviews available.</p>
+                    <% } %>
+
+                        <h2>Video Game Reviews</h2>
+                        <hr>
+                        <% if (videoGameReviews.length> 0) { %>
+                            <div class="reviews-container">
+                                <% videoGameReviews.forEach(review=> { %>
+                                    <% if (review.reviewItem) { %>
+                                        <a class="review-card" href="/view-content/<%= review.id %>">
+                                            <div class="review-image">
+                                                <% if (review.image_path) { %>
+                                                    <img src="<%= review.image_path %>"
+                                                        alt="Image for <%= review.name %>" />
+                                                    <% } %>
+                                            </div>
+                                            <div class="review-content">
+                                                <h3 class="review-title">
+                                                    <%= review.name %>
+                                                </h3>
+                                                <p class="review-category">
+                                                    <%= review.theme %> | <%= review.company_name %>
+                                                </p>
+                                                <p
+                                                    class="revRating <%= review.rating > 4 ? 'high-rating' : review.rating >= 3 ? 'medium-rating' : 'low-rating' %>">
+                                                    Players Rated <strong>
+                                                        <%= review.rating %>/5
+                                                    </strong>
+                                                </p>
+                                            </div>
+                                        </a>
+                                        <% } %>
+                                            <% }); %>
+                            </div>
+                            <% } else { %>
+                                <p>No video game reviews available.</p>
+                                <% } %>
+
+        </main>
 
 </body>
 
