@@ -10,32 +10,83 @@
         <main class="container">
             <h1>Add a Review</h2>
                 <form action="/reviews" method="POST" enctype="multipart/form-data">
-                    <input type="text" id="nameAdd" name="name" placeholder="Name of Movie or Video Game" required
-                        autocomplete="off" />
+
+                    <input minlength="4" maxlength="45" type="text" id="nameAdd" name="name" value="<%= prefill.name || '' %>"
+                        placeholder="Name of Movie or Video Game" <%=prefill.name ? 'readonly' : '' %>
+                    required
+                    />
+
                     <div class="selectContent">
-                        <select name="type" required>
-                            <option value="movie">Movie</option>
-                            <option value="video_game">Video Game</option>
+                        <!-- Type -->
+                        <select name="type" <%=prefill.type ? 'disabled' : '' %> required>
+                            <option value="movie" <%=prefill.type==='movie' ? 'selected' : '' %>>Movie</option>
+                            <option value="video_game" <%=prefill.type==='video_game' ? 'selected' : '' %>>Video Game
+                            </option>
                         </select>
-                        <select name="age" required>
-                            <option value="General">General (G)</option>
-                            <option value="Parental Guidance">Parental Guidance (PG)</option>
-                            <option value="Mature">Mature (M)</option>
-                            <option value="Restricted R">Restricted (R 18+)</option>
-                            <option value="Restricted X">Restricted (X 18+)</option>
+
+                        <% if (prefill.type) { %>
+                            <input type="hidden" name="type" value="<%= prefill.type %>">
+                        <% } %>
+
+                        <!-- Age -->
+                        <select name="age" <%=prefill.age ? 'disabled' : '' %> required>
+                            <option value="General" <%=prefill.age==='General' ? 'selected' : '' %>>General (G)
+                            </option>
+                            <option value="Parental Guidance" <%=prefill.age==='Parental Guidance' ? 'selected'
+                                : '' %>>Parental Guidance (PG)</option>
+                            <option value="Mature" <%=prefill.age==='Mature' ? 'selected' : '' %>>Mature (M)
+                            </option>
+                            <option value="Restricted R" <%=prefill.age==='Restricted R' ? 'selected' : '' %>
+                                >Restricted (R 18+)</option>
+                            <option value="Restricted X" <%=prefill.age==='Restricted X' ? 'selected' : '' %>
+                                >Restricted (X 18+)</option>
                         </select>
-                        <select name="rating" required>
-                            <option value="1">1 / 5</option>
-                            <option value="2">2 / 5</option>
-                            <option value="3">3 / 5</option>
-                            <option value="4">4 / 5</option>
-                            <option value="5">5 / 5</option>
+
+                        <% if (prefill.age) { %>
+                            <input type="hidden" name="age" value="<%= prefill.age %>">
+                        <% } %>
+
+                        <!-- Rating -->
+                        <select name="rating" <%= prefill.rating ? 'disabled' : '' %> style="background-color: <%= prefill.rating ? '#e9e9e9' : '#f4eaff' %>;" required>
+                            <option value="1" <%= prefill.rating === 1 ? 'selected' : '' %>>1 / 5</option>
+                            <option value="2" <%= prefill.rating === 2 ? 'selected' : '' %>>2 / 5</option>
+                            <option value="3" <%= prefill.rating === 3 ? 'selected' : '' %>>3 / 5</option>
+                            <option value="4" <%= prefill.rating === 4 ? 'selected' : '' %>>4 / 5</option>
+                            <option value="5" <%= prefill.rating === 5 ? 'selected' : '' %>>5 / 5</option>
                         </select>
+
+                        <% if (prefill.rating) { %>
+                            <input type="hidden" name="rating" value="<%= prefill.rating %>">
+                        <% } %>
                     </div>
-                    <textarea name="content" placeholder="Write your review here" required></textarea>
-                    <input type="text" name="company_name" placeholder="Company Name" required />
-                    <input type="text" name="theme" placeholder="Theme" required />
-                    <input type="file" name="image" accept="image/*" required />
+
+
+                    <textarea minlength="4" maxlength="300" name="content" placeholder="Write your review here" style="background-color: #f4eaff;" required><%= prefill.content || '' %></textarea>
+
+                    <input 
+                        minlength="4" maxlength="20"
+                        type="text" 
+                        name="company_name" 
+                        value="<%= prefill.company_name || '' %>" 
+                        <%= prefill.company_name ? 'readonly' : '' %> 
+                        required 
+                        placeholder="Company name"
+                    />
+
+                    <input 
+                        minlength="4" maxlength="20"
+                        type="text" 
+                        name="theme" 
+                        value="<%= prefill.theme || '' %>" 
+                        <%= prefill.theme ? 'readonly' : '' %> 
+                        required 
+                        placeholder="Genre"
+                    />
+                    
+                    <% if (!prefill.image_path) { %>
+                        <input type="file" name="image" accept="image/*">
+                    <% } %>
+
                     <button type="submit">Submit Review</button>
                 </form>
         </main>

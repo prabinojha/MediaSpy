@@ -24,7 +24,9 @@
                                     </strong>
                                 </p>
                                 <div>
-                                    <a href="/add-review">Add Review</a>
+                                    <a href="/add-review?name=<%= review.name %>&type=<%= review.type %>&age=<%= review.age %>&company_name=<%= review.company_name %>&theme=<%= review.theme %>&image_path=<%= review.image_path || '' %>">
+                                        Add Review
+                                    </a>
                                 </div>
                             </div>
                         </div>
