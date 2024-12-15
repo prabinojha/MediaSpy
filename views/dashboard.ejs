@@ -48,9 +48,9 @@
                                         <%= review.theme %> | <%= review.company_name %>
                                     </p>
                                     <p
-                                        class="revRating <%= review.rating > 4 ? 'high-rating' : review.rating >= 3 ? 'medium-rating' : 'low-rating' %>">
+                                        class="revRating <%= review.averageRating > 4 ? 'high-rating' : review.averageRating >= 3 ? 'medium-rating' : 'low-rating' %>">
                                         Viewers Rated <strong>
-                                            <%= review.rating %>/5
+                                            <%= review.averageRating %>/5
                                         </strong>
                                     </p>
                                 </div>
@@ -83,9 +83,9 @@
                                                     <%= review.theme %> | <%= review.company_name %>
                                                 </p>
                                                 <p
-                                                    class="revRating <%= review.rating > 4 ? 'high-rating' : review.rating >= 3 ? 'medium-rating' : 'low-rating' %>">
+                                                    class="revRating <%= review.averageRating > 4 ? 'high-rating' : review.averageRating >= 3 ? 'medium-rating' : 'low-rating' %>">
                                                     Players Rated <strong>
-                                                        <%= review.rating %>/5
+                                                        <%= review.averageRating %>/5
                                                     </strong>
                                                 </p>
                                             </div>

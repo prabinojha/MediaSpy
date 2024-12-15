@@ -6,6 +6,32 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
+// Helper Function to calculate average (relies on the database)
+const calculateAverageRating = (contentName, contentType) => {
+    return new Promise((resolve, reject) => {
+        db.all(
+            'SELECT rating FROM reviews WHERE name = ? AND type = ?',
+            [contentName, contentType],
+            (err, rows) => {
+                if (err) {
+                    console.error('Error calculating average rating:', err);
+                    return reject(err);
+                }
+
+                if (rows.length === 0) {
+                    return resolve(0);
+                }
+
+                const total = rows.reduce((sum, row) => sum + row.rating, 0);
+                const average = total / rows.length;
+
+                resolve(Number.isInteger(average) ? average : average.toFixed(1));
+            }
+        );
+    });
+};
+
+
 // Middleware passing variables to all routes
 router.use((req, res, next) => {
     res.locals.isLoggedIn = req.session && req.session.user ? true : false;
@@ -71,26 +97,36 @@ router.post('/register', async (req, res) => {
 });
 
 // Dashboard (main-page) handling
-router.get('/dashboard', (req, res) => {
+router.get('/dashboard', async (req, res) => {
     const movieQuery = `SELECT * FROM reviews WHERE type = 'movie'`;
     const videoGameQuery = `SELECT * FROM reviews WHERE type = 'video_game'`;
 
     let movieReviews = [];
     let videoGameReviews = [];
 
-    db.all(movieQuery, (err, movies) => {
+    db.all(movieQuery, async (err, movies) => {
         if (err) {
             console.error('Error fetching movie reviews:', err);
             return res.status(500).send('Internal Server Error');
         }
-        movieReviews = movies;
+        movieReviews = await Promise.all(
+            movies.map(async (movie) => ({
+                ...movie,
+                averageRating: await calculateAverageRating(movie.name, 'movie'),
+            }))
+        );
 
-        db.all(videoGameQuery, (err, games) => {
+        db.all(videoGameQuery, async (err, games) => {
             if (err) {
                 console.error('Error fetching video game reviews:', err);
                 return res.status(500).send('Internal Server Error');
             }
-            videoGameReviews = games;
+            videoGameReviews = await Promise.all(
+                games.map(async (game) => ({
+                    ...game,
+                    averageRating: await calculateAverageRating(game.name, 'video_game'),
+                }))
+            );
 
             res.render('dashboard', {
                 username: req.session?.user?.username || null,
@@ -220,7 +256,7 @@ router.get('/reviews/update/:id', ensureAuthenticated, (req, res) => {
         if (err) {
             return res.send('Error fetching review: ' + err.message);
         }
-        res.render('updateReview', { review: review});
+        res.render('updateReview', { review: review });
     });
 });
 
@@ -241,23 +277,43 @@ router.post('/reviews/update/:id', ensureAuthenticated, (req, res) => {
 });
 
 // Handling route to each individual review page
-router.get('/view-content/:id', function(req, res) {
+router.get('/view-content/:id', async function (req, res) {
     const reviewId = req.params.id;
 
-    db.get(`SELECT * FROM reviews WHERE id = ?`, [reviewId], (err, review) => {
+    // Fetch the specific review by ID
+    db.get(`SELECT * FROM reviews WHERE id = ?`, [reviewId], async (err, review) => {
         if (err) {
             return res.send('Error fetching review: ' + err.message);
         }
 
-        db.all(`SELECT * FROM reviews WHERE name = ?`, [review.name], (err, reviews) => {
-            if (err) {
-                return res.send('Error fetching personal reviews: ' + err.message);
-            }
+        if (!review) {
+            return res.status(404).send('Review not found');
+        }
 
-            res.render('view-content', { review: review, reviews: reviews });
-        });
+        try {
+            // Calculate the average rating for the content
+            const averageRating = await calculateAverageRating(review.name, review.type);
+
+            // Fetch all reviews for the same content
+            db.all(`SELECT * FROM reviews WHERE name = ?`, [review.name], (err, reviews) => {
+                if (err) {
+                    return res.send('Error fetching personal reviews: ' + err.message);
+                }
+
+                // Render the view-content template with data
+                res.render('view-content', {
+                    review,  // Pass the single review data
+                    reviews, // Pass the list of reviews
+                    averageRating, // Pass the calculated average rating
+                });
+            });
+        } catch (error) {
+            res.send('Error calculating average rating: ' + error.message);
+        }
     });
 });
+
+
 
 // Search Handling
 router.get('/search', (req, res) => {

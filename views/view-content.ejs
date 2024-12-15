@@ -18,13 +18,14 @@
                             </h2>
                             <div id="ratingReview">
                                 <p
-                                    class="view-content-rating <%= review.rating > 4 ? 'high-rating' : review.rating >= 3 ? 'medium-rating' : 'low-rating' %>">
+                                    class="view-content-rating <%= averageRating > 4 ? 'high-rating' : averageRating >= 3 ? 'medium-rating' : 'low-rating' %>">
                                     Average Rating: <strong>
-                                        <%=review.rating%>/5
+                                        <%= averageRating %>/5
                                     </strong>
                                 </p>
                                 <div>
-                                    <a href="/add-review?name=<%= review.name %>&type=<%= review.type %>&age=<%= review.age %>&company_name=<%= review.company_name %>&theme=<%= review.theme %>&image_path=<%= review.image_path || '' %>">
+                                    <a
+                                        href="/add-review?name=<%= review.name %>&type=<%= review.type %>&age=<%= review.age %>&company_name=<%= review.company_name %>&theme=<%= review.theme %>&image_path=<%= review.image_path || '' %>">
                                         Add Review
                                     </a>
                                 </div>
@@ -80,7 +81,7 @@
                                             <p
                                                 class="revRating <%= reviews.rating > 4 ? 'high-rating' : reviews.rating >= 3 ? 'medium-rating' : 'low-rating' %>">
                                                 <strong>
-                                                    <%=reviews.rating%>/5
+                                                    <%= reviews.rating %>/5
                                                 </strong>
                                             </p>
                                         </div>
