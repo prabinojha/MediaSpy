@@ -311,7 +311,7 @@ router.get('/search-suggestions', (req, res) => {
     });
 });
 
-router.get('/api/reviews/search', (req, res) => {
+router.get('/reviews/search', (req, res) => {
     const query = req.query.q;
     if (!query) {
         return res.status(400).send({ error: 'Query parameter is required' });

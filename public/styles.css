@@ -675,7 +675,8 @@ textarea {
 #suggestion-box {
     max-height: 200px;
     overflow-y: auto;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    border-radius: 4px;
 }
 
 .suggestion-item {
@@ -684,5 +685,5 @@ textarea {
 }
 
 .suggestion-item:hover {
-    background-color: #f0f0f0;
+    background-color: #f4eaff;
 }

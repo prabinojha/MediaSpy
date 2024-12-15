@@ -77,28 +77,54 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-
-const nameInput = document.getElementById('name');
+const nameInput = document.getElementById('nameAdd');
 const suggestionBox = document.createElement('div');
 suggestionBox.id = 'suggestion-box';
 document.body.appendChild(suggestionBox);
 
 nameInput.addEventListener('input', async (e) => {
     const query = e.target.value;
-    suggestionBox.innerHTML = ''; // Clear previous suggestions
-    if (query.length < 2) return; // Wait until at least 2 characters are typed
+    suggestionBox.innerHTML = '';
+    if (query.length < 2) return;
 
     try {
-        const response = await fetch(`/api/reviews/search?q=${encodeURIComponent(query)}`);
+        const response = await fetch(`/reviews/search?q=${encodeURIComponent(query)}`);
         if (!response.ok) throw new Error('Failed to fetch suggestions');
 
         const suggestions = await response.json();
         suggestions.forEach(suggestion => {
             const suggestionItem = document.createElement('div');
-            suggestionItem.textContent = suggestion.name;
             suggestionItem.className = 'suggestion-item';
+            suggestionItem.style.display = 'flex';
+            suggestionItem.style.alignItems = 'center';
+            suggestionItem.style.borderBottom = '1px solid #ccc';
+            suggestionItem.style.padding = '8px';
 
-            // On click, populate the form with the selected review's data
+            const img = document.createElement('img');
+            img.src = suggestion.image_path;
+            img.alt = suggestion.name;
+            img.style.width = '50px';
+            img.style.height = '50px';
+            img.style.objectFit = 'cover';
+            img.style.marginRight = '10px';
+
+            const details = document.createElement('div');
+
+            const name = document.createElement('strong');
+            name.textContent = suggestion.name;
+            name.style.display = 'block';
+
+            const additionalDetails = document.createElement('span');
+            additionalDetails.textContent = `${suggestion.company_name} | ${suggestion.theme}`;
+            additionalDetails.style.fontSize = '12px';
+            additionalDetails.style.color = '#555';
+
+            details.appendChild(name);
+            details.appendChild(additionalDetails);
+
+            suggestionItem.appendChild(img);
+            suggestionItem.appendChild(details);
+
             suggestionItem.addEventListener('click', () => {
                 nameInput.value = suggestion.name;
                 document.querySelector('select[name="type"]').value = suggestion.type;
@@ -107,13 +133,12 @@ nameInput.addEventListener('input', async (e) => {
                 document.querySelector('textarea[name="content"]').value = suggestion.content;
                 document.querySelector('input[name="company_name"]').value = suggestion.company_name;
                 document.querySelector('input[name="theme"]').value = suggestion.theme;
-                suggestionBox.innerHTML = ''; // Clear suggestions after selection
+                suggestionBox.innerHTML = '';
             });
 
             suggestionBox.appendChild(suggestionItem);
         });
 
-        // Position the suggestion box near the input
         const rect = nameInput.getBoundingClientRect();
         suggestionBox.style.position = 'absolute';
         suggestionBox.style.top = `${rect.bottom + window.scrollY}px`;
@@ -122,12 +147,13 @@ nameInput.addEventListener('input', async (e) => {
         suggestionBox.style.border = '1px solid #ccc';
         suggestionBox.style.backgroundColor = 'white';
         suggestionBox.style.zIndex = '1000';
+        suggestionBox.style.maxHeight = '200px';
+        suggestionBox.style.overflowY = 'auto';
     } catch (error) {
         console.error('Error fetching suggestions:', error);
     }
 });
 
-// Hide the suggestion box if clicked outside
 document.addEventListener('click', (e) => {
     if (!nameInput.contains(e.target) && !suggestionBox.contains(e.target)) {
         suggestionBox.innerHTML = '';
