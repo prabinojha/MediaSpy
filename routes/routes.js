@@ -38,7 +38,7 @@ router.use((req, res, next) => {
     next();
 });
 
-// Middleware to redirect logged in users
+// Middleware to redirect logged-in users
 function redirectIfLoggedIn(req, res, next) {
     if (req.session && req.session.user) {
         return res.redirect('/dashboard');
@@ -96,10 +96,14 @@ router.post('/register', async (req, res) => {
     });
 });
 
-// Dashboard (main-page) handling
+// Dashboard (main page) handling
 router.get('/dashboard', async (req, res) => {
-    const movieQuery = `SELECT * FROM reviews WHERE type = 'movie'`;
-    const videoGameQuery = `SELECT * FROM reviews WHERE type = 'video_game'`;
+    const movieQuery = `SELECT * FROM reviews` + 
+                       ` INNER JOIN users ON reviews.user_id = users.id` + 
+                       ` WHERE type = 'movie'`;
+    const videoGameQuery = `SELECT * FROM reviews` + 
+                           ` INNER JOIN users ON reviews.user_id = users.id` + 
+                           ` WHERE type = 'video_game'`;
 
     let movieReviews = [];
     let videoGameReviews = [];
@@ -352,51 +356,30 @@ router.get('/search-suggestions', (req, res) => {
 
     db.all(movieQuery, [`%${query}%`], (err, movieResults) => {
         if (err) {
-            console.error('Error fetching movie data:', err);
-            return res.status(500).send('Internal Server Error');
+            console.error('Error fetching movie suggestions:', err);
+            return res.status(500).json({ error: 'Internal Server Error' });
         }
 
         db.all(videoGameQuery, [`%${query}%`], (err, videoGameResults) => {
             if (err) {
-                console.error('Error fetching video game data:', err);
-                return res.status(500).send('Internal Server Error');
+                console.error('Error fetching video game suggestions:', err);
+                return res.status(500).json({ error: 'Internal Server Error' });
             }
 
-            Promise.all(
-                [...movieResults, ...videoGameResults].map(async (item) => ({
-                    ...item,
-                    averageRating: await calculateAverageRating(item.name, item.type)
-                }))
-            ).then(results => {
-                res.json({ movieResults: results.filter(r => r.type === 'movie'), videoGameResults: results.filter(r => r.type === 'video_game') });
+            res.json({
+                movieResults: movieResults.map(movie => ({
+                    name: movie.name,
+                    company_name: movie.company_name,
+                    type: movie.type,
+                })),
+                videoGameResults: videoGameResults.map(game => ({
+                    name: game.name,
+                    company_name: game.company_name,
+                    type: game.type,
+                })),
             });
         });
     });
 });
-
-router.get('/reviews/search', (req, res) => {
-    const query = req.query.q;
-    if (!query) {
-        return res.status(400).send({ error: 'Query parameter is required' });
-    }
-
-    const sql = `
-        SELECT name, type, age, company_name, theme, image_path 
-        FROM reviews 
-        WHERE reviewItem = TRUE AND name LIKE ?
-        LIMIT 5
-    `;
-    const params = [`%${query}%`];
-
-    db.all(sql, params, (err, reviews) => {
-        if (err) {
-            console.error('Error fetching reviews:', err);
-            return res.status(500).send({ error: 'Internal Server Error' });
-        }
-
-        res.json(reviews);
-    });
-});
-
 
 module.exports = router;
