@@ -58,7 +58,7 @@ router.get('/register', redirectIfLoggedIn, (req, res) => {
     res.render('register');
 });
 
-// Register handler
+// Creating account handler
 router.post('/register', async (req, res) => {
     const { username, password } = req.body;
 
@@ -70,7 +70,7 @@ router.post('/register', async (req, res) => {
     });
 });
 
-// Dashboard (accessible by both logged-in and non-logged-in users)
+// Dashboard (main-page) handling
 router.get('/dashboard', (req, res) => {
     const movieQuery = `SELECT * FROM reviews WHERE type = 'movie'`;
     const videoGameQuery = `SELECT * FROM reviews WHERE type = 'video_game'`;
@@ -119,11 +119,9 @@ router.get('/add-review', (req, res) => {
 // Image storage handling
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        // Save files in the uploads folder
         cb(null, 'uploads/');
     },
     filename: (req, file, cb) => {
-        // Append timestamp to filename
         cb(null, Date.now() + path.extname(file.originalname));
     }
 });
@@ -177,26 +175,21 @@ router.get('/reviews', ensureAuthenticated, (req, res) => {
 router.post('/reviews/delete/:id', ensureAuthenticated, (req, res) => {
     const reviewId = req.params.id;
 
-    // Step 1: Retrieve the image path from the database
     db.get(`SELECT image_path FROM reviews WHERE id = ?`, [reviewId], (err, row) => {
         if (err) {
             return res.send('Error retrieving review: ' + err.message);
         }
-
-        // Step 2: If an image path exists, delete the file from the uploads folder
         if (row && row.image_path) {
             const filePath = path.join(__dirname, '..', row.image_path);
             console.log(filePath);
 
             fs.unlink(filePath, (fsErr) => {
                 if (fsErr && fsErr.code !== 'ENOENT') {
-                    // Log the error if it's not a "file not found" error
                     console.error('Error deleting file:', fsErr.message);
                 }
             });
         }
 
-        // Step 3: Delete the review from the database
         db.run(`DELETE FROM reviews WHERE id = ?`, [reviewId], (err) => {
             if (err) {
                 return res.send('Error deleting review: ' + err.message);
