@@ -98,8 +98,13 @@ router.post('/register', async (req, res) => {
 
 // Dashboard (main-page) handling
 router.get('/dashboard', async (req, res) => {
-    const movieQuery = `SELECT * FROM reviews WHERE type = 'movie'`;
-    const videoGameQuery = `SELECT * FROM reviews WHERE type = 'video_game'`;
+    // Example showing how JOIN can be used
+    const movieQuery = `SELECT * FROM reviews` +
+        ` INNER JOIN users ON reviews.user_id = users.id` +
+        ` WHERE type = 'movie'`;
+    const videoGameQuery = `SELECT * FROM reviews` +
+        ` INNER JOIN users ON reviews.user_id = users.id` +
+        ` WHERE type = 'video_game'`;
 
     let movieReviews = [];
     let videoGameReviews = [];

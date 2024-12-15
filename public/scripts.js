@@ -21,17 +21,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 .then(response => response.json())
                 .then(data => {
                     const { movieResults, videoGameResults } = data;
-
                     const allResults = [...movieResults, ...videoGameResults];
 
                     allResults.forEach(item => {
                         let additionalRating;
-                        if (item.averageRating > 4) {
-                            additionalRating = 'high-rating';
-                        } else if (item.averageRating >= 3) {
-                            additionalRating = 'medium-rating';
+                        // Check if averageRating exists and set the class accordingly
+                        if (item.averageRating !== undefined) {
+                            if (item.averageRating > 4) {
+                                additionalRating = 'high-rating';
+                            } else if (item.averageRating >= 3) {
+                                additionalRating = 'medium-rating';
+                            } else {
+                                additionalRating = 'low-rating';
+                            }
                         } else {
-                            additionalRating = 'low-rating';
+                            additionalRating = 'no-rating'; // Fallback for undefined averageRating
                         }
 
                         const listItem = document.createElement('li');
@@ -41,18 +45,16 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <div> 
                                     <div class="titleType"> 
                                         <div class="title">${item.name}</div>
-                                        <div class="suggestion-type"> ${item.type}</div>
+                                        <div class="suggestion-type">${item.type}</div>
                                     </div>
                                     <div class="info">
-                                        <div> <strong> Theme: </strong> ${item.theme} </div>
-                                        <div> <strong> Company: </strong> ${item.company_name} </div>
+                                        <div><strong>Theme:</strong> ${item.theme}</div>
+                                        <div><strong>Company:</strong> ${item.company_name}</div>
                                     </div>
                                 </div>
                                 <div> 
                                     <p class="suggestionRating ${additionalRating}">
-                                        <strong>
-                                            ${item.averageRating}/5
-                                        </strong>
+                                        <strong>${item.averageRating || 'N/A'}/5</strong>
                                     </p>
                                 </div>
                             </div>
