@@ -161,8 +161,6 @@ router.post('/reviews', ensureAuthenticated, upload.single('image'), async (req,
     }
 });
 
-
-
 // View all reviews for the logged-in user
 router.get('/reviews', ensureAuthenticated, (req, res) => {
     const userId = req.session.user.id;
@@ -176,7 +174,6 @@ router.get('/reviews', ensureAuthenticated, (req, res) => {
 });
 
 // Handling delete & update routes
-
 router.post('/reviews/delete/:id', ensureAuthenticated, (req, res) => {
     const reviewId = req.params.id;
 
