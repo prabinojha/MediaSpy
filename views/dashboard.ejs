@@ -13,18 +13,17 @@
                 <div>
                     <form class="mainFilter" action="/filter" method="GET">
                         <select class="filter" name="filter" required>
-                            <option value="movie">Highest Rated</option>
-                            <option value="movie">Lowest Rated</option>
+                            <option value="highest">Highest Rated</option>
+                            <option value="lowest">Lowest Rated</option>
                         </select>
                     </form>
                     <form class="mainFilter" action="/filter" method="GET">
-                        <select class="filter" name="filter" required>
-                            <option value="movie">General (G)</option>
-                            <option value="movie">Parental Guidance (PG)</option>
-                            <option value="movie">Mature (M)</option>
-                            <option value="movie">Mature Accompanied (MA 15+)</option>
-                            <option value="movie">Restricted (R 18+)</option>
-                            <option value="movie">Restricted (X 18+)</option>
+                        <select class="filter" name="age" required>
+                            <option value="General">General (G)</option>
+                            <option value="Parental Guidance">Parental Guidance (PG)</option>
+                            <option value="Mature">Mature (M)</option>
+                            <option value="Restricted R">Restricted (R 18+)</option>
+                            <option value="Restricted X">Restricted (X 18+)</option>
                         </select>
                     </form>
                 </div>
@@ -61,8 +60,26 @@
                 <% } else { %>
                     <p>No movie reviews available.</p>
                     <% } %>
-
-                        <h2>Video Game Reviews</h2>
+                        <div class="titleFilter">
+                            <h2>Video Game Reviews</h2>
+                            <div>
+                                <form class="mainFilter" action="/filter" method="GET">
+                                    <select class="filter" name="filter" required>
+                                        <option value="highest">Highest Rated</option>
+                                        <option value="lowest">Lowest Rated</option>
+                                    </select>
+                                </form>
+                                <form class="mainFilter" action="/filter" method="GET">
+                                    <select class="filter" name="age" required>
+                                        <option value="General">General (G)</option>
+                                        <option value="Parental Guidance">Parental Guidance (PG)</option>
+                                        <option value="Mature">Mature (M)</option>
+                                        <option value="Restricted R">Restricted (R 18+)</option>
+                                        <option value="Restricted X">Restricted (X 18+)</option>
+                                    </select>
+                                </form>
+                            </div>
+                        </div>
                         <hr>
                         <% if (videoGameReviews.length> 0) { %>
                             <div class="reviews-container">
