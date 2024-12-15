@@ -1,3 +1,5 @@
+// Client-side javascript which will execute while client is running the website
+
 document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.getElementById("search-input");
     const suggestionsList = document.getElementById("suggestions-list");
@@ -23,16 +25,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     const allResults = [...movieResults, ...videoGameResults];
 
                     allResults.forEach(item => {
-                        const listItem = document.createElement('li');
-
-                        if (item.rating > 4) {
+                        let additionalRating;
+                        if (item.averageRating > 4) {
                             additionalRating = 'high-rating';
-                        } else if (item.rating >= 3) {
+                        } else if (item.averageRating >= 3) {
                             additionalRating = 'medium-rating';
                         } else {
                             additionalRating = 'low-rating';
                         }
 
+                        const listItem = document.createElement('li');
                         listItem.innerHTML = `
                             <img src="${item.image_path || 'https://via.placeholder.com/50'}" alt="${item.name}">
                             <div class="suggestion-details">
@@ -49,12 +51,13 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <div> 
                                     <p class="suggestionRating ${additionalRating}">
                                         <strong>
-                                            ${item.rating}/5
+                                            ${item.averageRating}/5
                                         </strong>
                                     </p>
                                 </div>
                             </div>
                         `;
+
                         listItem.addEventListener('click', function () {
                             window.location.href = `/view-content/${item.id}`;
                         });
@@ -76,6 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
 
 const nameInput = document.getElementById('nameAdd');
 const suggestionBox = document.createElement('div');

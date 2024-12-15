@@ -170,7 +170,6 @@ router.post('/reviews', ensureAuthenticated, upload.single('image'), async (req,
         const { name, type, age, content, rating, company_name, theme } = req.body;
         const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
 
-        // Set reviewItem to true if an image is uploaded, otherwise false
         const reviewItem = req.file ? true : false;
 
         const query = `
@@ -280,7 +279,6 @@ router.post('/reviews/update/:id', ensureAuthenticated, (req, res) => {
 router.get('/view-content/:id', async function (req, res) {
     const reviewId = req.params.id;
 
-    // Fetch the specific review by ID
     db.get(`SELECT * FROM reviews WHERE id = ?`, [reviewId], async (err, review) => {
         if (err) {
             return res.send('Error fetching review: ' + err.message);
@@ -291,20 +289,16 @@ router.get('/view-content/:id', async function (req, res) {
         }
 
         try {
-            // Calculate the average rating for the content
             const averageRating = await calculateAverageRating(review.name, review.type);
 
-            // Fetch all reviews for the same content
             db.all(`SELECT * FROM reviews WHERE name = ?`, [review.name], (err, reviews) => {
                 if (err) {
                     return res.send('Error fetching personal reviews: ' + err.message);
                 }
-
-                // Render the view-content template with data
                 res.render('view-content', {
-                    review,  // Pass the single review data
-                    reviews, // Pass the list of reviews
-                    averageRating, // Pass the calculated average rating
+                    review,
+                    reviews,
+                    averageRating,
                 });
             });
         } catch (error) {
@@ -312,8 +306,6 @@ router.get('/view-content/:id', async function (req, res) {
         }
     });
 });
-
-
 
 // Search Handling
 router.get('/search', (req, res) => {
@@ -370,7 +362,14 @@ router.get('/search-suggestions', (req, res) => {
                 return res.status(500).send('Internal Server Error');
             }
 
-            res.json({ movieResults, videoGameResults });
+            Promise.all(
+                [...movieResults, ...videoGameResults].map(async (item) => ({
+                    ...item,
+                    averageRating: await calculateAverageRating(item.name, item.type)
+                }))
+            ).then(results => {
+                res.json({ movieResults: results.filter(r => r.type === 'movie'), videoGameResults: results.filter(r => r.type === 'video_game') });
+            });
         });
     });
 });
