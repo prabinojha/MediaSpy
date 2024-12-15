@@ -22,18 +22,14 @@
                                             <div class="searchTitle">
                                                 <%= movie.name %>
                                             </div>
-                                            <p
-                                                class="searchRating <%= movie.rating > 4 ? 'high-rating' : movie.rating >= 3 ? 'medium-rating' : 'low-rating' %>">
-                                                Viewers Rated <strong>
-                                                    <%= movie.rating %>/5
-                                                </strong>
-                                            </p>
-                                            <p><strong>Theme:</strong>
-                                                <%= movie.theme %>
-                                            </p>
-                                            <p><strong>Company:</strong>
-                                                <%= movie.company_name %>
-                                            </p>
+                                            <div>
+                                                <p><strong>Theme:</strong>
+                                                    <%= movie.theme %>
+                                                </p>
+                                                <p><strong>Company:</strong>
+                                                    <%= movie.company_name %>
+                                                </p>
+                                            </div>
                                         </div>
                                     </a>
                                 </li>

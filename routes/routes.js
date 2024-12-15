@@ -323,8 +323,8 @@ router.get('/search', (req, res) => {
         return res.redirect('/dashboard');
     }
 
-    const movieQuery = `SELECT * FROM reviews WHERE type = 'movie' AND name LIKE ?`;
-    const videoGameQuery = `SELECT * FROM reviews WHERE type = 'video_game' AND name LIKE ?`;
+    const movieQuery = `SELECT * FROM reviews WHERE type = 'movie' AND name LIKE ? AND reviewItem = TRUE`;
+    const videoGameQuery = `SELECT * FROM reviews WHERE type = 'video_game' AND name LIKE ? AND reviewItem = TRUE`;
 
     db.all(movieQuery, [`%${query}%`], (err, movieResults) => {
         if (err) {
@@ -355,8 +355,8 @@ router.get('/search-suggestions', (req, res) => {
         return res.json({ movieResults: [], videoGameResults: [] });
     }
 
-    const movieQuery = `SELECT * FROM reviews WHERE type = 'movie' AND name LIKE ?`;
-    const videoGameQuery = `SELECT * FROM reviews WHERE type = 'video_game' AND name LIKE ?`;
+    const movieQuery = `SELECT * FROM reviews WHERE type = 'movie' AND name LIKE ? AND reviewItem = TRUE`;
+    const videoGameQuery = `SELECT * FROM reviews WHERE type = 'video_game' AND name LIKE ? AND reviewItem = TRUE`;
 
     db.all(movieQuery, [`%${query}%`], (err, movieResults) => {
         if (err) {
@@ -384,7 +384,7 @@ router.get('/reviews/search', (req, res) => {
     const sql = `
         SELECT name, type, age, company_name, theme, image_path 
         FROM reviews 
-        WHERE reviewItem = TRUE AND name LIKE ? 
+        WHERE reviewItem = TRUE AND name LIKE ?
         LIMIT 5
     `;
     const params = [`%${query}%`];
