@@ -634,7 +634,7 @@ textarea {
 /* Styling for individual view-content reviews */
 
 .view-content-review {
-    padding: 2rem;
+    padding: 1rem 2rem;
     margin: 20px auto;
     width: 100%;
     border-radius: 10px;

@@ -249,7 +249,7 @@ router.get('/view-content/:id', function(req, res) {
             return res.send('Error fetching review: ' + err.message);
         }
 
-        db.all(`SELECT * FROM reviews WHERE name = ? AND id != ?`, [review.name, reviewId], (err, reviews) => {
+        db.all(`SELECT * FROM reviews WHERE name = ?`, [review.name], (err, reviews) => {
             if (err) {
                 return res.send('Error fetching personal reviews: ' + err.message);
             }
