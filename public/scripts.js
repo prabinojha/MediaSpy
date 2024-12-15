@@ -141,8 +141,8 @@ nameInput.addEventListener('input', async (e) => {
 
                 // Disable non-editable fields
                 nameInput.readOnly = true;
-                document.querySelector('select[name="type"]').disabled = true;
-                document.querySelector('select[name="age"]').disabled = true;
+                //document.querySelector('select[name="type"]').disabled = true;
+                //document.querySelector('select[name="age"]').disabled = true;
                 document.querySelector('textarea[name="content"]').readOnly = true;
                 document.querySelector('input[name="company_name"]').readOnly = true;
                 document.querySelector('input[name="theme"]').readOnly = true;
