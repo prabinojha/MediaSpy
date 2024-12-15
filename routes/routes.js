@@ -173,7 +173,12 @@ router.post('/reviews', ensureAuthenticated, upload.single('image'), async (req,
 router.get('/reviews', ensureAuthenticated, (req, res) => {
     const userId = req.session.user.id;
 
-    db.all(`SELECT * FROM reviews WHERE user_id = ?`, [userId], (err, rows) => {
+    const sql = `
+        SELECT * FROM reviews 
+        WHERE user_id = ? AND reviewItem = FALSE
+    `;
+
+    db.all(sql, [userId], (err, rows) => {
         if (err) {
             return res.send('Error fetching reviews: ' + err.message);
         }
@@ -321,8 +326,9 @@ router.get('/reviews/search', (req, res) => {
     }
 
     const sql = `
-        SELECT * FROM reviews 
-        WHERE name LIKE ? 
+        SELECT name, type, age, company_name, theme, image_path 
+        FROM reviews 
+        WHERE reviewItem = TRUE AND name LIKE ? 
         LIMIT 5
     `;
     const params = [`%${query}%`];
@@ -336,5 +342,6 @@ router.get('/reviews/search', (req, res) => {
         res.json(reviews);
     });
 });
+
 
 module.exports = router;
