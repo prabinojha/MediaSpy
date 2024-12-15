@@ -84,8 +84,8 @@ document.body.appendChild(suggestionBox);
 
 nameInput.addEventListener('input', async (e) => {
     const query = e.target.value;
-    suggestionBox.innerHTML = '';
-    if (query.length < 2) return;
+    suggestionBox.innerHTML = ''; // Clear previous suggestions
+    if (query.length < 2) return; // Wait until at least 2 characters are typed
 
     try {
         const response = await fetch(`/reviews/search?q=${encodeURIComponent(query)}`);
@@ -100,20 +100,24 @@ nameInput.addEventListener('input', async (e) => {
             suggestionItem.style.borderBottom = '1px solid #ccc';
             suggestionItem.style.padding = '8px';
 
+            // Create an image element
             const img = document.createElement('img');
-            img.src = suggestion.image_path;
+            img.src = suggestion.image_path || '/placeholder.jpg'; // Use a placeholder if no image
             img.alt = suggestion.name;
             img.style.width = '50px';
             img.style.height = '50px';
             img.style.objectFit = 'cover';
             img.style.marginRight = '10px';
 
+            // Create a details div
             const details = document.createElement('div');
 
+            // Name
             const name = document.createElement('strong');
             name.textContent = suggestion.name;
             name.style.display = 'block';
 
+            // Company and theme
             const additionalDetails = document.createElement('span');
             additionalDetails.textContent = `${suggestion.company_name} | ${suggestion.theme}`;
             additionalDetails.style.fontSize = '12px';
@@ -125,20 +129,44 @@ nameInput.addEventListener('input', async (e) => {
             suggestionItem.appendChild(img);
             suggestionItem.appendChild(details);
 
+            // On click, populate the form with the selected review's data and disable certain fields
             suggestionItem.addEventListener('click', () => {
+                // Populate the form fields
                 nameInput.value = suggestion.name;
                 document.querySelector('select[name="type"]').value = suggestion.type;
                 document.querySelector('select[name="age"]').value = suggestion.age;
-                document.querySelector('select[name="rating"]').value = suggestion.rating;
-                document.querySelector('textarea[name="content"]').value = suggestion.content;
+                //document.querySelector('textarea[name="content"]').value = suggestion.content;
                 document.querySelector('input[name="company_name"]').value = suggestion.company_name;
                 document.querySelector('input[name="theme"]').value = suggestion.theme;
-                suggestionBox.innerHTML = '';
+
+                // Disable non-editable fields
+                nameInput.readOnly = true;
+                document.querySelector('select[name="type"]').disabled = true;
+                document.querySelector('select[name="age"]').disabled = true;
+                document.querySelector('textarea[name="content"]').readOnly = true;
+                document.querySelector('input[name="company_name"]').readOnly = true;
+                document.querySelector('input[name="theme"]').readOnly = true;
+                document.querySelector('input[name="image"]').disabled = true;
+
+                const fileUploadSection = document.querySelector('input[name="image"]');
+                fileUploadSection.style.display = 'none';
+
+                // Highlight editable fields
+                const ratingField = document.querySelector('select[name="rating"]');
+                ratingField.disabled = false;
+                ratingField.style.backgroundColor = '#f4eaff';
+
+                const reviewField = document.querySelector('textarea[name="content"]');
+                reviewField.readOnly = false; // Allow writing review after suggestion
+                reviewField.style.backgroundColor = '#f4eaff';
+
+                suggestionBox.innerHTML = ''; // Clear suggestions after selection
             });
 
             suggestionBox.appendChild(suggestionItem);
         });
 
+        // Position the suggestion box near the input
         const rect = nameInput.getBoundingClientRect();
         suggestionBox.style.position = 'absolute';
         suggestionBox.style.top = `${rect.bottom + window.scrollY}px`;
@@ -154,6 +182,7 @@ nameInput.addEventListener('input', async (e) => {
     }
 });
 
+// Hide the suggestion box if clicked outside
 document.addEventListener('click', (e) => {
     if (!nameInput.contains(e.target) && !suggestionBox.contains(e.target)) {
         suggestionBox.innerHTML = '';
