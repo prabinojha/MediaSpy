@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcrypt');
 const db = require('../database');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const { encryptPassword, verifyPassword } = require('../encryption.js');
 
 // Helper Function to calculate average (relies on the database)
 const calculateAverageRating = (contentName, contentType) => {
@@ -67,11 +67,12 @@ router.get('/login', (req, res) => {
 router.post('/login', (req, res) => {
     const { username, password } = req.body;
 
-    db.get('SELECT * FROM users WHERE username = ?', [username], async (err, user) => {
+    db.get('SELECT * FROM users WHERE username = ?', [username], (err, user) => {
         if (err) return res.send('Database error.');
         if (!user) return res.send('Invalid username or password.');
 
-        const match = await bcrypt.compare(password, user.password);
+        // Compare the password using the verifyPassword method from encryption.js
+        const match = verifyPassword(password, user.password); 
         if (!match) return res.send('Invalid username or password.');
 
         req.session.user = { id: user.id, username: user.username };
@@ -88,7 +89,8 @@ router.get('/register', redirectIfLoggedIn, (req, res) => {
 router.post('/register', async (req, res) => {
     const { username, password } = req.body;
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Securely hashing the password with the encrypt method
+    const hashedPassword = encryptPassword(password);
 
     db.run('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashedPassword], (err) => {
         if (err) return res.send('Username already exists.');
