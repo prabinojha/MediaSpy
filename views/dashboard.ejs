@@ -8,120 +8,135 @@
 <body>
     <%- include('includes/header')%>
         <main>
-            <div class="titleFilter">
-                <h2>Movie Reviews</h2>
-                <div class="filterButtons">
-                    <form class="mainFilter" action="/filter" method="GET">
-                        <select class="filter" name="ratingSort" id="ratingSort">
-                            <option value="">Select Rating</option>
-                            <option value="highest">Highest Rated</option>
-                            <option value="lowest">Lowest Rated</option>
-                        </select>
+            <div class="filterButtons">
+                <div class="titleFilter">
+                    <h2>Movie Reviews</h2>
+                    <div class="filterButtons">
+                        <form class="mainFilter" action="/dashboard" method="GET">
+                            <select class="filter" name="movieRatingSort" id="movieRatingSort">
+                                <option value="" <%=!movieRatingSort ? 'selected' : '' %>>Select Rating</option>
+                                <option value="highest" <%=movieRatingSort==='highest' ? 'selected' : '' %>>Highest
+                                    Rated</option>
+                                <option value="lowest" <%=movieRatingSort==='lowest' ? 'selected' : '' %>>Lowest Rated
+                                </option>
+                            </select>
 
-                        <select class="filter" name="ageSort" id="ageSort">
-                            <option value="">Select Age</option>
-                            <option value="General">General (G)</option>
-                            <option value="Parental Guidance">Parental Guidance (PG)</option>
-                            <option value="Mature">Mature (M)</option>
-                            <option value="Restricted R">Restricted (R 18+)</option>
-                            <option value="Restricted X">Restricted (X 18+)</option>
-                        </select>
+                            <select class="filter" name="movieAgeSort" id="movieAgeSort">
+                                <option value="" <%=!movieAgeSort ? 'selected' : '' %>>Select Age</option>
+                                <option value="General" <%=movieAgeSort==='General' ? 'selected' : '' %>>General (G)
+                                </option>
+                                <option value="Parental Guidance" <%=movieAgeSort==='Parental Guidance' ? 'selected'
+                                    : '' %>>Parental Guidance (PG)</option>
+                                <option value="Mature" <%=movieAgeSort==='Mature' ? 'selected' : '' %>>Mature (M)
+                                </option>
+                                <option value="Restricted R" <%=movieAgeSort==='Restricted R' ? 'selected' : '' %>
+                                    >Restricted (R 18+)</option>
+                                <option value="Restricted X" <%=movieAgeSort==='Restricted X' ? 'selected' : '' %>
+                                    >Restricted (X 18+)</option>
+                            </select>
 
-                        <button class="applyFilterButton" type="submit">Apply</button>
-                    </form>
+                            <button class="applyFilterButton" type="submit">Apply</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
-            <hr>
-            <% if (movieReviews.length> 0) { %>
-                <div class="reviews-container">
-                    <% movieReviews.forEach(review=> { %>
-                        <% if (review.reviewItem) { %>
-                            <a class="review-card" href="/view-content/<%= review.id %>">
-                                <div class="review-image">
-                                    <% if (review.image_path) { %>
-                                        <img src="<%= review.image_path %>" alt="Image for <%= review.name %>" />
-                                        <% } %>
-                                </div>
-                                <div class="review-content">
-                                    <h3 class="review-title">
-                                        <%= review.name %>
-                                    </h3>
-                                    <p class="review-category">
-                                        <%= review.theme %> | <%= review.company_name %>
-                                    </p>
-                                    <p
-                                        class="revRating <%= review.averageRating > 4 ? 'high-rating' : review.averageRating >= 3 ? 'medium-rating' : 'low-rating' %>">
-                                        Viewers Rated <strong>
-                                            <%= review.averageRating %>/5
-                                        </strong>
-                                    </p>
-                                </div>
-                            </a>
-                            <% } %>
-                                <% }); %>
-                </div>
-                <% } else { %>
-                    <p class="noReviewsAvailable">No Movie reviews available.</p>
-                    <% } %>
-                        <div class="titleFilter">
-                            <h2>Video Game Reviews</h2>
-                            <div class="filterButtons">
-                                <form class="mainFilter" action="/filter" method="GET">
-                                    <select class="filter" name="ratingSort" id="ratingSort">
-                                        <option value="">Select Rating</option>
-                                        <option value="highest">Highest Rated</option>
-                                        <option value="lowest">Lowest Rated</option>
-                                    </select>
-
-                                    <select class="filter" name="ageSort" id="ageSort">
-                                        <option value="">Select Age</option>
-                                        <option value="General">General (G)</option>
-                                        <option value="Parental Guidance">Parental Guidance (PG)</option>
-                                        <option value="Mature">Mature (M)</option>
-                                        <option value="Restricted R">Restricted (R 18+)</option>
-                                        <option value="Restricted X">Restricted (X 18+)</option>
-                                    </select>
-
-                                    <button class="applyFilterButton" type="submit">Apply</button>
-                                </form>
-                            </div>
-                        </div>
-                        <hr>
-                        <% if (videoGameReviews.length> 0) { %>
-                            <div class="reviews-container">
-                                <% videoGameReviews.forEach(review=> { %>
-                                    <% if (review.reviewItem) { %>
-                                        <a class="review-card" href="/view-content/<%= review.id %>">
-                                            <div class="review-image">
-                                                <% if (review.image_path) { %>
-                                                    <img src="<%= review.image_path %>"
-                                                        alt="Image for <%= review.name %>" />
-                                                    <% } %>
-                                            </div>
-                                            <div class="review-content">
-                                                <h3 class="review-title">
-                                                    <%= review.name %>
-                                                </h3>
-                                                <p class="review-category">
-                                                    <%= review.theme %> | <%= review.company_name %>
-                                                </p>
-                                                <p
-                                                    class="revRating <%= review.averageRating > 4 ? 'high-rating' : review.averageRating >= 3 ? 'medium-rating' : 'low-rating' %>">
-                                                    Players Rated <strong>
-                                                        <%= review.averageRating %>/5
-                                                    </strong>
-                                                </p>
-                                            </div>
-                                        </a>
-                                        <% } %>
-                                            <% }); %>
-                            </div>
-                            <% } else { %>
-                                <p class="noReviewsAvailable">No Video Game reviews available.</p>
+                <hr>
+                <% if (movieReviews.length> 0) { %>
+                    <div class="reviews-container">
+                        <% movieReviews.forEach(review=> { %>
+                            <% if (review.reviewItem) { %>
+                                <a class="review-card" href="/view-content/<%= review.id %>">
+                                    <div class="review-image">
+                                        <% if (review.image_path) { %>
+                                            <img src="<%= review.image_path %>" alt="Image for <%= review.name %>" />
+                                            <% } %>
+                                    </div>
+                                    <div class="review-content">
+                                        <h3 class="review-title">
+                                            <%= review.name %>
+                                        </h3>
+                                        <p class="review-category">
+                                            <%= review.theme %> | <%= review.company_name %>
+                                        </p>
+                                        <p
+                                            class="revRating <%= review.averageRating > 4 ? 'high-rating' : review.averageRating >= 3 ? 'medium-rating' : 'low-rating' %>">
+                                            Viewers Rated <strong>
+                                                <%= review.averageRating %>/5
+                                            </strong>
+                                        </p>
+                                    </div>
+                                </a>
                                 <% } %>
+                                    <% }); %>
+                    </div>
+                    <% } else { %>
+                        <p class="noReviewsAvailable">No Movie reviews available.</p>
+                        <% } %>
 
+                            <div class="titleFilter">
+                                <h2>Video Game Reviews</h2>
+                                <div class="filterButtons">
+                                    <form class="mainFilter" action="/dashboard" method="GET">
+                                        <select class="filter" name="gameRatingSort" id="gameRatingSort">
+                                            <option value="" <%=!gameRatingSort ? 'selected' : '' %>>Select Rating
+                                            </option>
+                                            <option value="highest" <%=gameRatingSort==='highest' ? 'selected' : '' %>
+                                                >Highest Rated</option>
+                                            <option value="lowest" <%=gameRatingSort==='lowest' ? 'selected' : '' %>
+                                                >Lowest Rated</option>
+                                        </select>
+
+                                        <select class="filter" name="gameAgeSort" id="gameAgeSort">
+                                            <option value="" <%=!gameAgeSort ? 'selected' : '' %>>Select Age</option>
+                                            <option value="General" <%=gameAgeSort==='General' ? 'selected' : '' %>
+                                                >General (G)</option>
+                                            <option value="Parental Guidance" <%=gameAgeSort==='Parental Guidance'
+                                                ? 'selected' : '' %>>Parental Guidance (PG)</option>
+                                            <option value="Mature" <%=gameAgeSort==='Mature' ? 'selected' : '' %>>Mature
+                                                (M)</option>
+                                            <option value="Restricted R" <%=gameAgeSort==='Restricted R' ? 'selected'
+                                                : '' %>>Restricted (R 18+)</option>
+                                            <option value="Restricted X" <%=gameAgeSort==='Restricted X' ? 'selected'
+                                                : '' %>>Restricted (X 18+)</option>
+                                        </select>
+
+                                        <button class="applyFilterButton" type="submit">Apply</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <hr>
+                            <% if (videoGameReviews.length> 0) { %>
+                                <div class="reviews-container">
+                                    <% videoGameReviews.forEach(review=> { %>
+                                        <% if (review.reviewItem) { %>
+                                            <a class="review-card" href="/view-content/<%= review.id %>">
+                                                <div class="review-image">
+                                                    <% if (review.image_path) { %>
+                                                        <img src="<%= review.image_path %>"
+                                                            alt="Image for <%= review.name %>" />
+                                                        <% } %>
+                                                </div>
+                                                <div class="review-content">
+                                                    <h3 class="review-title">
+                                                        <%= review.name %>
+                                                    </h3>
+                                                    <p class="review-category">
+                                                        <%= review.theme %> | <%= review.company_name %>
+                                                    </p>
+                                                    <p
+                                                        class="revRating <%= review.averageRating > 4 ? 'high-rating' : review.averageRating >= 3 ? 'medium-rating' : 'low-rating' %>">
+                                                        Players Rated <strong>
+                                                            <%= review.averageRating %>/5
+                                                        </strong>
+                                                    </p>
+                                                </div>
+                                            </a>
+                                            <% } %>
+                                                <% }); %>
+                                </div>
+                                <% } else { %>
+                                    <p class="noReviewsAvailable">No Video Game reviews available.</p>
+                                    <% } %>
         </main>
-
 </body>
 
 </html>

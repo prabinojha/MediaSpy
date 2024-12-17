@@ -31,7 +31,6 @@ const calculateAverageRating = (contentName, contentType) => {
     });
 };
 
-
 // Middleware passing variables to all routes
 router.use((req, res, next) => {
     res.locals.isLoggedIn = req.session && req.session.user ? true : false;
@@ -53,6 +52,30 @@ function ensureAuthenticated(req, res, next) {
     }
     next();
 }
+
+// Helper Function to process and filter reviews
+async function processReviews(reviews, type, ratingSort, ageSort) {
+    const processedReviews = await Promise.all(
+        reviews.map(async (review) => ({
+            ...review,
+            averageRating: await calculateAverageRating(review.name, type),
+        }))
+    );
+
+    let filteredReviews = ageSort
+        ? processedReviews.filter((review) => review.age === ageSort)
+        : processedReviews;
+
+    if (ratingSort === 'highest') {
+        filteredReviews.sort((a, b) => b.averageRating - a.averageRating);
+    } else if (ratingSort === 'lowest') {
+        filteredReviews.sort((a, b) => a.averageRating - b.averageRating);
+    }
+
+    return filteredReviews;
+}
+
+// ROUTES UTILISING THE ABOVE FUNCTIONS
 
 // Login page
 router.get('/', (req, res) => {
@@ -100,43 +123,43 @@ router.post('/register', async (req, res) => {
 
 // Dashboard (main-page) handling
 router.get('/dashboard', async (req, res) => {
-    const movieQuery = `SELECT * FROM reviews WHERE type = 'movie'`;
-    const videoGameQuery = `SELECT * FROM reviews WHERE type = 'video_game'`;
+    const { movieRatingSort, movieAgeSort, gameRatingSort, gameAgeSort } = req.query;
 
-    let movieReviews = [];
-    let videoGameReviews = [];
+    const baseMovieQuery = `SELECT * FROM reviews WHERE type = 'movie'`;
+    const baseGameQuery = `SELECT * FROM reviews WHERE type = 'video_game'`;
 
-    db.all(movieQuery, async (err, movies) => {
-        if (err) {
-            console.error('Error fetching movie reviews:', err);
-            return res.status(500).send('Internal Server Error');
-        }
-        movieReviews = await Promise.all(
-            movies.map(async (movie) => ({
-                ...movie,
-                averageRating: await calculateAverageRating(movie.name, 'movie'),
-            }))
-        );
-
-        db.all(videoGameQuery, async (err, games) => {
-            if (err) {
-                console.error('Error fetching video game reviews:', err);
-                return res.status(500).send('Internal Server Error');
-            }
-            videoGameReviews = await Promise.all(
-                games.map(async (game) => ({
-                    ...game,
-                    averageRating: await calculateAverageRating(game.name, 'video_game'),
-                }))
-            );
-
-            res.render('dashboard', {
-                username: req.session?.user?.username || null,
-                movieReviews,
-                videoGameReviews,
+    try {
+        const movies = await new Promise((resolve, reject) => {
+            db.all(baseMovieQuery, (err, rows) => {
+                if (err) reject(err);
+                else resolve(rows);
             });
         });
-    });
+
+        const movieReviews = await processReviews(movies, 'movie', movieRatingSort, movieAgeSort);
+
+        const games = await new Promise((resolve, reject) => {
+            db.all(baseGameQuery, (err, rows) => {
+                if (err) reject(err);
+                else resolve(rows);
+            });
+        });
+
+        const videoGameReviews = await processReviews(games, 'video_game', gameRatingSort, gameAgeSort);
+
+        res.render('dashboard', {
+            username: req.session?.user?.username || null,
+            movieReviews,
+            videoGameReviews,
+            movieRatingSort: movieRatingSort || '',
+            movieAgeSort: movieAgeSort || '',
+            gameRatingSort: gameRatingSort || '',
+            gameAgeSort: gameAgeSort || '',
+        });
+    } catch (err) {
+        console.error('Error applying filters:', err);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 // Logout handler
@@ -198,8 +221,6 @@ router.post('/reviews', ensureAuthenticated, upload.single('image'), async (req,
         res.status(500).send('Error adding review');
     }
 });
-
-
 
 // View all reviews for the logged-in user
 router.get('/reviews', ensureAuthenticated, (req, res) => {
@@ -444,6 +465,8 @@ router.get('/filter', async (req, res) => {
             username: req.session?.user?.username || null,
             movieReviews,
             videoGameReviews,
+            ratingSort,
+            ageSort,
         });
     } catch (err) {
         console.error('Error applying filters:', err);
