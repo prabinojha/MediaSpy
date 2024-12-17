@@ -204,11 +204,12 @@ textarea {
     padding: 4px 12px;
     border: 1px solid black;
     border-radius: 4px;
+    background-color: #f4eaff;
     color: black;
 }
 
 .applyFilterButton:hover {
-    background-color:#f4eaff;
+    background-color:#e7d0ff;
     text-decoration: none;
 }
 
