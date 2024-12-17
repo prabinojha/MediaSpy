@@ -188,11 +188,11 @@ textarea {
 
 .mainFilter {
     all: unset;
-    padding: 0px 3px;
 }
 
 .filter {
     width: 180px;
+    margin-right: 0.22rem;
 }
 
 .filter option {
