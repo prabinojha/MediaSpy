@@ -7,13 +7,13 @@
         <%- include('includes/header') %>
             <main class="view-content-container">
                 <section class="view-content-info">
-                    <div>
+                    <div id="view-content-image-div">
                         <img class="view-content-image" src="<%= review.image_path %>"
                             alt="Image for <%= review.name %>">
                     </div>
                     <div class="view-content-detail">
                         <div>
-                            <h2>
+                            <h2 id="view-content-heading">
                                 <%= review.name %>
                             </h2>
                             <div id="ratingReview">
