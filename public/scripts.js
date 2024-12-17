@@ -182,3 +182,16 @@ document.addEventListener('click', (e) => {
         suggestionBox.innerHTML = '';
     }
 });
+
+// Handling clicks for mobile design adaptability
+const hamburgerIcon = document.getElementById("hamburger-icon");
+const overlayMenu = document.getElementById("overlay-menu");
+
+hamburgerIcon.addEventListener("click", () => {
+    overlayMenu.style.display = overlayMenu.style.display === "block" ? "none" : "block";
+});
+
+// Close the menu when a link is clicked
+overlayMenu.addEventListener("click", () => {
+    overlayMenu.style.display = "none";
+});

@@ -693,7 +693,7 @@ textarea {
     }
 
     #logo {
-        width: 200px;
+        display: 200px;
     }
 
     .search-container {
@@ -729,5 +729,21 @@ textarea {
 
     .suggestion-type {
         display: none;
+    }
+}
+
+@media (max-width: 665px) {
+    .filterButtons {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .filterButtons form {
+        width: 100%;
+    }
+
+    .filter {
+        width: 100%;
     }
 }
