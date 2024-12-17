@@ -681,3 +681,53 @@ textarea {
 .suggestion-item:hover {
     background-color: #f4eaff;
 }
+
+/* Media queries for mobile adaptability */
+@media (max-width: 1070px) {
+
+    /* Header */
+    #main-header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem;
+    }
+
+    #logo {
+        width: 200px;
+    }
+
+    .search-container {
+        width: 100%;
+        margin: 0;
+    }
+
+    .search-container form {
+        display: flex;
+        width: 100%;
+    }
+
+    .search-container form input {
+        width: calc(100% - 40px);
+        padding-right: 40px;
+    }
+
+    #nav-links ul {
+        flex-direction: row;
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    #nav-links li {
+        margin: 0.5rem 0;
+        margin-right: 10px;
+    }
+
+    #main-header nav a {
+        width: 100%;
+        text-align: center;
+    }
+
+    .suggestion-type {
+        display: none;
+    }
+}
