@@ -317,6 +317,8 @@ router.get('/view-content/:id', async function (req, res) {
                     review,
                     reviews,
                     averageRating,
+                    ratingSort: '',
+                    dateSort: ''
                 });
             });
         } catch (error) {
@@ -473,5 +475,54 @@ router.get('/filter', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+
+// Filter handling for user comments on reviews
+router.get('/filter-comments', async (req, res) => {
+    const { ratingSort, dateSort, name } = req.query;
+
+    let query = `SELECT * FROM reviews WHERE name = ?`;
+    const params = [name];
+
+    if (ratingSort === 'positive') {
+        query += ' AND rating > 3';
+    } else if (ratingSort === 'negative') {
+        query += ' AND rating <= 3';
+    }
+
+    if (dateSort === 'new') {
+        query += ' ORDER BY created_at DESC';
+    } else if (dateSort === 'old') {
+        query += ' ORDER BY created_at ASC';
+    }
+
+    db.all(query, params, (err, reviews) => {
+        if (err) {
+            console.error('Error fetching filtered reviews:', err.message);
+            return res.status(500).send('Internal Server Error');
+        }
+
+        db.get(`SELECT * FROM reviews WHERE name = ? LIMIT 1`, [name], async (err, review) => {
+            if (err || !review) {
+                return res.status(404).send('Content not found');
+            }
+
+            try {
+                const averageRating = await calculateAverageRating(review.name, review.type);
+
+                res.render('view-content', {
+                    review,
+                    reviews,
+                    averageRating,
+                    ratingSort: ratingSort || '',
+                    dateSort: dateSort || ''
+                });
+            } catch (error) {
+                console.error('Error calculating average rating:', error.message);
+                res.status(500).send('Internal Server Error');
+            }
+        });
+    });
+});
+
 
 module.exports = router;

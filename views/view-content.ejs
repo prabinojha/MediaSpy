@@ -45,22 +45,30 @@
                             <%= review.age %>
                         </div>
                     </div>
-
                 </section>
+
                 <div id="view-content-filter">
-                    <form class="mainFilter" action="/filter" method="GET">
-                        <select class="filter" name="filter" required>
-                            <option value="positive">Positive Ratings</option>
-                            <option value="negative">Negative Ratings</option>
+                    <form class="mainFilter" action="/filter-comments" method="GET">
+                        <input type="hidden" name="name" value="<%= review.name %>">
+
+                        <select class="filter" name="ratingSort" id="ratingSort">
+                            <option value="" <%=!ratingSort ? 'selected' : '' %>>Select</option>
+                            <option value="positive" <%=ratingSort==='positive' ? 'selected' : '' %>>Positive Ratings
+                            </option>
+                            <option value="negative" <%=ratingSort==='negative' ? 'selected' : '' %>>Negative Ratings
+                            </option>
                         </select>
-                    </form>
-                    <form class="mainFilter" action="/filter" method="GET">
-                        <select class="filter" name="filter" required>
-                            <option value="new">Latest Reviews</option>
-                            <option value="old">Oldest Reviews</option>
+
+                        <select class="filter" name="dateSort" id="dateSort">
+                            <option value="" <%=!dateSort ? 'selected' : '' %>>Select</option>
+                            <option value="new" <%=dateSort==='new' ? 'selected' : '' %>>Latest Reviews</option>
+                            <option value="old" <%=dateSort==='old' ? 'selected' : '' %>>Oldest Reviews</option>
                         </select>
+
+                        <button type="submit" class="applyFilterButton">Apply Filters</button>
                     </form>
                 </div>
+
                 <section>
                     <ul>
                         <% reviews.forEach(function(reviews) { %>
