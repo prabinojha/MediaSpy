@@ -309,6 +309,11 @@ textarea {
     background-color: #f1f1f1;
 }
 
+.noReviewsAvailable {
+    font-size: 1rem;
+    margin: 10px 0;
+}
+
 /* My-Review styling */
 .personal-review {
     padding: 2rem;
