@@ -12,19 +12,22 @@
                 <h2>Movie Reviews</h2>
                 <div class="filterButtons">
                     <form class="mainFilter" action="/filter" method="GET">
-                        <select class="filter" name="filter" required>
+                        <select class="filter" name="ratingSort" id="ratingSort">
+                            <option value="">Select Rating</option>
                             <option value="highest">Highest Rated</option>
                             <option value="lowest">Lowest Rated</option>
                         </select>
-                    </form>
-                    <form class="mainFilter" action="/filter" method="GET">
-                        <select class="filter" name="age" required>
+
+                        <select class="filter" name="ageSort" id="ageSort">
+                            <option value="">Select Age</option>
                             <option value="General">General (G)</option>
                             <option value="Parental Guidance">Parental Guidance (PG)</option>
                             <option value="Mature">Mature (M)</option>
                             <option value="Restricted R">Restricted (R 18+)</option>
                             <option value="Restricted X">Restricted (X 18+)</option>
                         </select>
+
+                        <button class="applyFilterButton" type="submit">Apply</button>
                     </form>
                 </div>
             </div>
@@ -64,19 +67,22 @@
                             <h2>Video Game Reviews</h2>
                             <div class="filterButtons">
                                 <form class="mainFilter" action="/filter" method="GET">
-                                    <select class="filter" name="filter" required>
+                                    <select class="filter" name="ratingSort" id="ratingSort">
+                                        <option value="">Select Rating</option>
                                         <option value="highest">Highest Rated</option>
                                         <option value="lowest">Lowest Rated</option>
                                     </select>
-                                </form>
-                                <form class="mainFilter" action="/filter" method="GET">
-                                    <select class="filter" name="age" required>
+
+                                    <select class="filter" name="ageSort" id="ageSort">
+                                        <option value="">Select Age</option>
                                         <option value="General">General (G)</option>
                                         <option value="Parental Guidance">Parental Guidance (PG)</option>
                                         <option value="Mature">Mature (M)</option>
                                         <option value="Restricted R">Restricted (R 18+)</option>
                                         <option value="Restricted X">Restricted (X 18+)</option>
                                     </select>
+
+                                    <button class="applyFilterButton" type="submit">Apply</button>
                                 </form>
                             </div>
                         </div>
